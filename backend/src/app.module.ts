@@ -10,6 +10,9 @@ import { HomeModule } from "./modules/home/home.module";
 import { DestinationsModule } from "./modules/destinations/destinations.module";
 import { TripsModule } from "./modules/trips/trips.module";
 import { ItineraryModule } from "./modules/itinerary/itinerary.module";
+import { MapsModule } from "./modules/maps/maps.module";
+import { PlacesModule } from "./modules/places/places.module";
+import { RouteIntelligenceModule } from "./modules/route-intelligence/route-intelligence.module";
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { ItineraryModule } from "./modules/itinerary/itinerary.module";
     DestinationsModule,
     TripsModule,
     ItineraryModule,
+    MapsModule,
+    PlacesModule,
+    RouteIntelligenceModule,
   ],
 })
 export class AppModule {}

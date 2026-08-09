@@ -16,11 +16,16 @@ import '../features/explore/presentation/screens/explore_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/itinerary/presentation/screens/itinerary_item_details_screen.dart';
 import '../features/itinerary/presentation/screens/itinerary_screen.dart';
+import '../features/maps/presentation/screens/trip_map_screen.dart';
 import '../features/onboarding/onboarding.dart';
+import '../features/places/presentation/screens/place_details_screen.dart';
+import '../features/places/presentation/screens/places_screen.dart';
 import '../features/profile/presentation/screens/app_preferences_screen.dart';
 import '../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../features/profile/presentation/screens/profile_screen.dart';
 import '../features/profile/presentation/screens/travel_preferences_screen.dart';
+import '../features/route_intelligence/presentation/screens/route_details_screen.dart';
+import '../features/route_intelligence/presentation/screens/route_intelligence_screen.dart';
 import '../features/saved/presentation/screens/saved_screen.dart';
 import '../features/splash/presentation/screens/splash_screen.dart';
 import '../features/trips/presentation/screens/create_trip_screen.dart';
@@ -177,6 +182,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const DestinationSearchScreen(),
       ),
       GoRoute(
+        path: '/explore/places',
+        builder: (context, state) => const PlacesScreen(),
+      ),
+      GoRoute(
+        path: '/places/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'place-fort';
+          return PlaceDetailsScreen(placeId: id);
+        },
+      ),
+      GoRoute(
         path: '/explore/destination/:id',
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? 'dest-goa';
@@ -217,6 +233,29 @@ final routerProvider = Provider<GoRouter>((ref) {
           final id = state.pathParameters['id'] ?? 'trip-goa-escape';
           final itemId = state.pathParameters['itemId'] ?? 'item-1';
           return ItineraryItemDetailsScreen(tripId: id, itemId: itemId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/map',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return TripMapScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/days/:dayId/route',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final dayId = state.pathParameters['dayId'] ?? 'day-1';
+          return RouteDetailsScreen(tripId: id, dayId: dayId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/days/:dayId/intelligence',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final dayId = state.pathParameters['dayId'] ?? 'day-1';
+          return RouteIntelligenceScreen(tripId: id, dayId: dayId);
         },
       ),
       GoRoute(

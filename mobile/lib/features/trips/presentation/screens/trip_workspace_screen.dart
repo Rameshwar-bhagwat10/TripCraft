@@ -304,12 +304,14 @@ class TripWorkspaceScreen extends ConsumerWidget {
                             },
                           ),
                           const SizedBox(height: AppDimensions.space10),
-                          const TripModuleRow(
+                          TripModuleRow(
                             icon: PhosphorIconsRegular.mapPin,
                             title: 'Map & Saved Places',
                             subtitle: 'Interactive map pins & routes',
-                            badgeText: 'Coming Soon',
-                            isAvailable: false,
+                            badgeText: 'Active',
+                            onTap: () {
+                              context.push('/trips/${trip.id}/map');
+                            },
                           ),
                           const SizedBox(height: AppDimensions.space10),
                           const TripModuleRow(

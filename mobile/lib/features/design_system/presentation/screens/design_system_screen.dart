@@ -14,6 +14,7 @@ import '../widgets/home_components_section.dart';
 import '../widgets/icon_section.dart';
 import '../widgets/input_section.dart';
 import '../widgets/itinerary_components_section.dart';
+import '../widgets/map_components_section.dart';
 import '../widgets/motion_section.dart';
 import '../widgets/profile_components_section.dart';
 import '../widgets/spacing_section.dart';
@@ -51,6 +52,7 @@ class DesignSystemScreen extends StatelessWidget {
             InputSection(),
             CardSection(),
             ChipSection(),
+            MapComponentsSection(),
             ItineraryComponentsSection(),
             TripComponentsSection(),
             ExploreComponentsSection(),
