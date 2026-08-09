@@ -18,14 +18,28 @@ class AppRoutes {
   static const String designSystem = '/design-system';
 }
 
+class AuthRouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+
+  AuthRouterNotifier(this._ref) {
+    _ref.listen<AuthState>(authProvider, (_, __) {
+      notifyListeners();
+    });
+  }
+}
+
+final authRouterNotifierProvider = Provider<AuthRouterNotifier>((ref) {
+  return AuthRouterNotifier(ref);
+});
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authNotifier = ref.watch(authProvider.notifier);
-  final authState = ref.watch(authProvider);
+  final refreshListenable = ref.watch(authRouterNotifierProvider);
 
   return GoRouter(
     initialLocation: RouteConstants.splash,
-    refreshListenable: _ListenableAdapter(authNotifier),
+    refreshListenable: refreshListenable,
     redirect: (context, state) {
+      final authState = ref.read(authProvider);
       final status = authState.status;
       final loc = state.matchedLocation;
 
@@ -103,11 +117,3 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
-
-class _ListenableAdapter extends ChangeNotifier {
-  _ListenableAdapter(StateNotifier notifier) {
-    notifier.addListener((_) {
-      notifyListeners();
-    });
-  }
-}
