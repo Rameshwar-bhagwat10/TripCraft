@@ -351,7 +351,7 @@ class DestinationDetailsScreen extends ConsumerWidget {
                 label: 'Plan a Trip',
                 icon: const Icon(PhosphorIconsBold.suitcase, size: 18),
                 onPressed: () {
-                  context.go('/trips');
+                  context.push('/trips/create?destinationId=${dest.id}');
                 },
               ),
             ),

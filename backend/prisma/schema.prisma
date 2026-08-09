@@ -19,6 +19,8 @@ model User {
   updatedAt           DateTime           @updatedAt
   preferences         UserPreferences?
   savedDestinations   SavedDestination[]
+  ownedTrips          Trip[]             @relation("OwnedTrips")
+  tripMemberships     TripMember[]
 
   @@map("profiles")
 }
@@ -70,6 +72,7 @@ model Destination {
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
   savedBy         SavedDestination[]
+  trips           Trip[]
 
   @@map("destinations")
 }
@@ -84,4 +87,40 @@ model SavedDestination {
 
   @@unique([userId, destinationId])
   @@map("saved_destinations")
+}
+
+model Trip {
+  id             String       @id @default(uuid())
+  ownerId        String
+  destinationId  String
+  title          String
+  description    String?
+  coverImage     String
+  startDate      DateTime
+  endDate        DateTime
+  status         String       @default("Upcoming") // Draft, Upcoming, Ongoing, Completed, Archived
+  travelersCount Int          @default(1)
+  visibility     String       @default("Private")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  owner          User         @relation("OwnedTrips", fields: [ownerId], references: [id], onDelete: Cascade)
+  destination    Destination  @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  members        TripMember[]
+
+  @@map("trips")
+}
+
+model TripMember {
+  id        String   @id @default(uuid())
+  tripId    String
+  userId    String
+  role      String   @default("Owner") // Owner, Editor, Viewer
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tripId, userId])
+  @@map("trip_members")
 }

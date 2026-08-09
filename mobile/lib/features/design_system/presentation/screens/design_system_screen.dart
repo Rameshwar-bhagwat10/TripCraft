@@ -17,6 +17,7 @@ import '../widgets/motion_section.dart';
 import '../widgets/profile_components_section.dart';
 import '../widgets/spacing_section.dart';
 import '../widgets/state_section.dart';
+import '../widgets/trip_components_section.dart';
 import '../widgets/typography_section.dart';
 
 /// Development-only Design System Showcase Screen for TripCraft.
@@ -49,6 +50,7 @@ class DesignSystemScreen extends StatelessWidget {
             InputSection(),
             CardSection(),
             ChipSection(),
+            TripComponentsSection(),
             ExploreComponentsSection(),
             HomeComponentsSection(),
             ProfileComponentsSection(),

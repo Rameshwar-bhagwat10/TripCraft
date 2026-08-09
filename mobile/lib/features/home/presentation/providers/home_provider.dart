@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/app_providers.dart';
+import '../../../trips/presentation/providers/trips_provider.dart';
 import '../../data/datasources/home_remote_datasource.dart';
 import '../../data/repositories/home_repository_impl.dart';
 import '../../domain/entities/home_data.dart';
@@ -72,6 +73,18 @@ class HomeNotifier extends StateNotifier<HomeState> {
     }
   }
 
+  void updateUpcomingTrip(UpcomingTrip? tripData) {
+    state = state.copyWith(
+      data: HomeData(
+        upcomingTrip: tripData,
+        recommendations: state.data.recommendations,
+        inspiration: state.data.inspiration,
+        weather: state.data.weather,
+        recentActivity: state.data.recentActivity,
+      ),
+    );
+  }
+
   void toggleSaveDestination(String recId) {
     final updatedRecs = state.data.recommendations.map((rec) {
       if (rec.id == recId) {
@@ -94,5 +107,29 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
 final homeProvider = StateNotifierProvider<HomeNotifier, HomeState>((ref) {
   final repository = ref.watch(homeRepositoryProvider);
-  return HomeNotifier(repository);
+  final notifier = HomeNotifier(repository);
+
+  // Synchronize top upcoming trip from tripsProvider
+  ref.listen<TripsState>(tripsProvider, (prev, next) {
+    final primary = next.primaryUpcomingTrip;
+    if (primary != null) {
+      notifier.updateUpcomingTrip(
+        UpcomingTrip(
+          id: primary.id,
+          destination: primary.title,
+          location: primary.destination != null
+              ? '${primary.destination!.city}, ${primary.destination!.country}'
+              : primary.title,
+          startDate: primary.startDate,
+          endDate: primary.endDate,
+          daysToGo: primary.daysToGo,
+          imageUrl: primary.coverImage,
+        ),
+      );
+    } else {
+      notifier.updateUpcomingTrip(null);
+    }
+  });
+
+  return notifier;
 });

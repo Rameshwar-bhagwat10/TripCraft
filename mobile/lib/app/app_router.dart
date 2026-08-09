@@ -21,6 +21,9 @@ import '../features/profile/presentation/screens/profile_screen.dart';
 import '../features/profile/presentation/screens/travel_preferences_screen.dart';
 import '../features/saved/presentation/screens/saved_screen.dart';
 import '../features/splash/presentation/screens/splash_screen.dart';
+import '../features/trips/presentation/screens/create_trip_screen.dart';
+import '../features/trips/presentation/screens/edit_trip_screen.dart';
+import '../features/trips/presentation/screens/trip_workspace_screen.dart';
 import '../features/trips/presentation/screens/trips_screen.dart';
 import '../shared/layouts/app_shell.dart';
 
@@ -176,6 +179,27 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? 'dest-goa';
           return DestinationDetailsScreen(destinationId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/create',
+        builder: (context, state) {
+          final destId = state.uri.queryParameters['destinationId'];
+          return CreateTripScreen(initialDestinationId: destId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return TripWorkspaceScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/edit',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return EditTripScreen(tripId: id);
         },
       ),
       GoRoute(
