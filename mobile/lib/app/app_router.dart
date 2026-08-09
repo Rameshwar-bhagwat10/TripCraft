@@ -10,13 +10,17 @@ import '../features/authentication/presentation/screens/register_screen.dart';
 import '../features/authentication/presentation/screens/reset_password_screen.dart';
 import '../features/authentication/presentation/screens/verify_email_screen.dart';
 import '../features/design_system/design_system.dart';
+import '../features/explore/presentation/screens/explore_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/onboarding/onboarding.dart';
 import '../features/profile/presentation/screens/app_preferences_screen.dart';
 import '../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../features/profile/presentation/screens/profile_screen.dart';
 import '../features/profile/presentation/screens/travel_preferences_screen.dart';
+import '../features/saved/presentation/screens/saved_screen.dart';
 import '../features/splash/presentation/screens/splash_screen.dart';
+import '../features/trips/presentation/screens/trips_screen.dart';
+import '../shared/layouts/app_shell.dart';
 
 class AppRoutes {
   static const String designSystem = '/design-system';
@@ -110,14 +114,57 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: RouteConstants.onboarding,
         builder: (context, state) => const OnboardingScreen(),
       ),
-      GoRoute(
-        path: RouteConstants.home,
-        builder: (context, state) => const HomeScreen(),
+
+      // App Shell Branch Navigation (Home, Explore, Trips, Saved, Profile)
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return AppShell(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteConstants.home,
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/explore',
+                builder: (context, state) => const ExploreScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/trips',
+                builder: (context, state) => const TripsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/saved',
+                builder: (context, state) => const SavedScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RouteConstants.profile,
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
+        ],
       ),
-      GoRoute(
-        path: RouteConstants.profile,
-        builder: (context, state) => const ProfileScreen(),
-      ),
+
+      // Sub-routes with hidden bottom nav
       GoRoute(
         path: RouteConstants.editProfile,
         builder: (context, state) => const EditProfileScreen(),

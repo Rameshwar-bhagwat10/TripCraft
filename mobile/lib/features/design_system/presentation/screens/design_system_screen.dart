@@ -9,6 +9,7 @@ import '../widgets/card_section.dart';
 import '../widgets/chip_section.dart';
 import '../widgets/color_section.dart';
 import '../widgets/dialog_section.dart';
+import '../widgets/home_components_section.dart';
 import '../widgets/icon_section.dart';
 import '../widgets/input_section.dart';
 import '../widgets/motion_section.dart';
@@ -47,6 +48,7 @@ class DesignSystemScreen extends StatelessWidget {
             InputSection(),
             CardSection(),
             ChipSection(),
+            HomeComponentsSection(),
             ProfileComponentsSection(),
             BadgeSection(),
             StateSection(),

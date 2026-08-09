@@ -6,8 +6,8 @@ import '../../../../app/app_typography.dart';
 import '../../../../shared/layouts/app_scaffold.dart';
 import '../../../../shared/widgets/states/empty_state.dart';
 
-class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
+class SavedScreen extends StatelessWidget {
+  const SavedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ExploreScreen extends StatelessWidget {
         backgroundColor: AppColors.background,
         elevation: 0,
         title: Text(
-          'Explore',
+          'Saved Places',
           style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
@@ -25,9 +25,9 @@ class ExploreScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(AppDimensions.pageMargin),
           child: EmptyState(
-            title: 'Explore Destinations',
-            description: 'Discover curated travel spots, hidden gems, and local experiences across the globe.',
-            icon: PhosphorIconsRegular.compass,
+            title: 'Your Saved Collection',
+            description: 'Save destinations, activities, and hotels to access them anytime when planning trips.',
+            icon: PhosphorIconsRegular.bookmark,
           ),
         ),
       ),
