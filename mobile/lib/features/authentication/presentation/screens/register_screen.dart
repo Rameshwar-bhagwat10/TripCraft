@@ -83,106 +83,152 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: AppDimensions.space12),
+
+                // Top Pill Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColors.primarySurface,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.primaryLight),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(PhosphorIconsBold.userPlus, size: 14, color: AppColors.primary),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Join Tripcraft Today',
+                        style: AppTypography.labelSmall.copyWith(
+                          color: AppColors.primaryDark,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppDimensions.space16),
+
                 Text('Create your account', style: AppTypography.displaySmall),
                 const SizedBox(height: AppDimensions.space6),
                 Text(
                   'Build your personalized travel experience.',
                   style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
                 ),
-                const SizedBox(height: AppDimensions.space28),
-
-                // Full Name
-                AppTextField(
-                  label: 'Full Name',
-                  hintText: 'Jane Doe',
-                  controller: _fullNameController,
-                  prefixIcon: const Icon(PhosphorIconsRegular.user),
-                  validator: (val) {
-                    if (val == null || val.trim().isEmpty) return 'Full name is required';
-                    return null;
-                  },
-                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                ),
-                const SizedBox(height: AppDimensions.space16),
-
-                // Email
-                AppTextField(
-                  label: 'Email',
-                  hintText: 'name@example.com',
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: const Icon(PhosphorIconsRegular.envelope),
-                  validator: (val) {
-                    if (val == null || val.trim().isEmpty) return 'Email is required';
-                    if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email address';
-                    return null;
-                  },
-                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                ),
-                const SizedBox(height: AppDimensions.space16),
-
-                // Password
-                AppTextField(
-                  label: 'Password',
-                  hintText: 'Create a strong password',
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  onChanged: (_) => setState(() {}),
-                  prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? PhosphorIconsRegular.eye : PhosphorIconsRegular.eyeSlash,
-                      size: 20,
-                      color: AppColors.textTertiary,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                  validator: (val) {
-                    if (val == null || val.isEmpty) return 'Password is required';
-                    if (val.length < 6) return 'Password must be at least 6 characters';
-                    return null;
-                  },
-                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                ),
-                PasswordStrengthIndicator(password: _passwordController.text),
-                const SizedBox(height: AppDimensions.space16),
-
-                // Confirm Password
-                AppTextField(
-                  label: 'Confirm Password',
-                  hintText: 'Re-enter your password',
-                  controller: _confirmPasswordController,
-                  obscureText: _obscureConfirmPassword,
-                  prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureConfirmPassword ? PhosphorIconsRegular.eye : PhosphorIconsRegular.eyeSlash,
-                      size: 20,
-                      color: AppColors.textTertiary,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureConfirmPassword = !_obscureConfirmPassword;
-                      });
-                    },
-                  ),
-                  validator: (val) {
-                    if (val != _passwordController.text) return 'Passwords do not match';
-                    return null;
-                  },
-                  onSubmitted: (_) => _handleRegister(),
-                ),
                 const SizedBox(height: AppDimensions.space24),
 
-                // Create Account CTA
-                PrimaryButton(
-                  label: 'Create Account',
-                  onPressed: isLoading ? null : _handleRegister,
-                  isLoading: isLoading,
+                // Form Container
+                Container(
+                  padding: const EdgeInsets.all(AppDimensions.space20),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.border),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.02),
+                        blurRadius: 16,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      // Full Name
+                      AppTextField(
+                        label: 'Full Name',
+                        hintText: 'Jane Doe',
+                        controller: _fullNameController,
+                        prefixIcon: const Icon(PhosphorIconsRegular.user),
+                        validator: (val) {
+                          if (val == null || val.trim().isEmpty) return 'Full name is required';
+                          return null;
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                      ),
+                      const SizedBox(height: AppDimensions.space16),
+
+                      // Email
+                      AppTextField(
+                        label: 'Email Address',
+                        hintText: 'name@example.com',
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        prefixIcon: const Icon(PhosphorIconsRegular.envelope),
+                        validator: (val) {
+                          if (val == null || val.trim().isEmpty) return 'Email is required';
+                          if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email address';
+                          return null;
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                      ),
+                      const SizedBox(height: AppDimensions.space16),
+
+                      // Password
+                      AppTextField(
+                        label: 'Password',
+                        hintText: 'Create a strong password',
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        onChanged: (_) => setState(() {}),
+                        prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? PhosphorIconsRegular.eye : PhosphorIconsRegular.eyeSlash,
+                            size: 20,
+                            color: AppColors.textTertiary,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                        validator: (val) {
+                          if (val == null || val.isEmpty) return 'Password is required';
+                          if (val.length < 6) return 'Password must be at least 6 characters';
+                          return null;
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                      ),
+                      PasswordStrengthIndicator(password: _passwordController.text),
+                      const SizedBox(height: AppDimensions.space16),
+
+                      // Confirm Password
+                      AppTextField(
+                        label: 'Confirm Password',
+                        hintText: 'Re-enter your password',
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureConfirmPassword ? PhosphorIconsRegular.eye : PhosphorIconsRegular.eyeSlash,
+                            size: 20,
+                            color: AppColors.textTertiary,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                            });
+                          },
+                        ),
+                        validator: (val) {
+                          if (val != _passwordController.text) return 'Passwords do not match';
+                          return null;
+                        },
+                        onSubmitted: (_) => _handleRegister(),
+                      ),
+                      const SizedBox(height: AppDimensions.space24),
+
+                      // Create Account CTA
+                      PrimaryButton(
+                        label: 'Create Account',
+                        onPressed: isLoading ? null : _handleRegister,
+                        isLoading: isLoading,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: AppDimensions.space24),
 
@@ -228,7 +274,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         'Sign in',
                         style: AppTypography.labelLarge.copyWith(
                           color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),

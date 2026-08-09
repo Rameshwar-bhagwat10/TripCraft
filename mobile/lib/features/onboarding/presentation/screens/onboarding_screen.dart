@@ -57,7 +57,7 @@ class OnboardingScreen extends ConsumerWidget {
     }
 
     final double progress = (state.currentStep - 1) / 7.0;
-    final String stepText = '0${state.currentStep - 1} / 07';
+    final String stepText = '0${state.currentStep - 1} of 07';
 
     return AppScaffold(
       appBar: AppBar(
@@ -70,11 +70,18 @@ class OnboardingScreen extends ConsumerWidget {
               )
             : null,
         title: state.currentStep > 1 && state.currentStep < 8
-            ? Text(
-                stepText,
-                style: AppTypography.labelMedium.copyWith(
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w600,
+            ? Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceSecondary,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
+                  stepText,
+                  style: AppTypography.labelMedium.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               )
             : null,
@@ -119,12 +126,21 @@ class OnboardingScreen extends ConsumerWidget {
             ),
           ),
           if (state.currentStep < 8)
-            SafeArea(
-              child: Container(
-                padding: const EdgeInsets.all(AppDimensions.pageMargin),
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
-                ),
+            Container(
+              padding: const EdgeInsets.all(AppDimensions.pageMargin),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                border: const Border(top: BorderSide(color: AppColors.border, width: 1.0)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.03),
+                    blurRadius: 16,
+                    offset: Offset(0, -4),
+                  ),
+                ],
+              ),
+              child: SafeArea(
+                top: false,
                 child: PrimaryButton(
                   label: state.currentStep == 1 ? "Let's get started" : 'Continue',
                   onPressed: () => notifier.nextStep(),

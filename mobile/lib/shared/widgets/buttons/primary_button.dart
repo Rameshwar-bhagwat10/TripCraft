@@ -3,7 +3,7 @@ import '../../../app/app_colors.dart';
 import '../../../app/app_dimensions.dart';
 import '../../../app/app_typography.dart';
 
-/// Reusable Primary Button for main call-to-actions in TripCraft.
+/// Reusable Premium Primary Button for main call-to-actions in TripCraft.
 class PrimaryButton extends StatefulWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -58,34 +58,52 @@ class _PrimaryButtonState extends State<PrimaryButton> {
           style: AppTypography.labelLarge.copyWith(
             color: canPress ? Colors.white : AppColors.textDisabled,
             fontWeight: FontWeight.w600,
+            letterSpacing: 0.2,
           ),
         ),
       ],
     );
 
+    final BoxDecoration decoration = canPress
+        ? BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF0F766E), Color(0xFF115E59)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: AppDimensions.buttonRadius,
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromRGBO(15, 118, 110, 0.24),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          )
+        : BoxDecoration(
+            color: AppColors.surfaceSecondary,
+            borderRadius: AppDimensions.buttonRadius,
+          );
+
     return AnimatedScale(
-      scale: _isPressed && canPress ? 0.98 : 1.0,
+      scale: _isPressed && canPress ? 0.975 : 1.0,
       duration: const Duration(milliseconds: 100),
       child: GestureDetector(
         onTapDown: (_) => setState(() => _isPressed = true),
         onTapUp: (_) => setState(() => _isPressed = false),
         onTapCancel: () => setState(() => _isPressed = false),
-        child: SizedBox(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
           height: widget.height ?? AppDimensions.buttonHeight,
           width: widget.isFullWidth ? double.infinity : null,
-          child: ElevatedButton(
-            onPressed: canPress ? widget.onPressed : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              disabledBackgroundColor: AppColors.surfaceTertiary,
-              elevation: 0,
-              shadowColor: Colors.transparent,
-              shape: const RoundedRectangleBorder(
-                borderRadius: AppDimensions.buttonRadius,
-              ),
+          decoration: decoration,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: canPress ? widget.onPressed : null,
+              borderRadius: AppDimensions.buttonRadius,
+              child: Center(child: buttonContent),
             ),
-            child: buttonContent,
           ),
         ),
       ),

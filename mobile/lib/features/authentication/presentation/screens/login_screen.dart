@@ -67,93 +67,176 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: AppDimensions.space24),
-                // Brand Header Icon
+                const SizedBox(height: AppDimensions.space20),
+
+                // Top Pill Badge
                 Container(
-                  width: 52,
-                  height: 52,
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppColors.primarySurface,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.primaryLight),
                   ),
-                  child: const Icon(
-                    PhosphorIconsBold.compass,
-                    color: AppColors.primary,
-                    size: 30,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(PhosphorIconsBold.sparkle, size: 14, color: AppColors.primary),
+                      const SizedBox(width: 6),
+                      Text(
+                        'AI-Powered Travel Planning',
+                        style: AppTypography.labelSmall.copyWith(
+                          color: AppColors.primaryDark,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: AppDimensions.space20),
-                Text('Welcome back', style: AppTypography.displaySmall),
-                const SizedBox(height: AppDimensions.space6),
-                Text(
-                  'Sign in to continue planning your next journey.',
-                  style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-                ),
-                const SizedBox(height: AppDimensions.space32),
-
-                // Email Field
-                AppTextField(
-                  label: 'Email',
-                  hintText: 'name@example.com',
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: const Icon(PhosphorIconsRegular.envelope),
-                  validator: (val) {
-                    if (val == null || val.trim().isEmpty) return 'Email is required';
-                    if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email address';
-                    return null;
-                  },
-                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
                 ),
                 const SizedBox(height: AppDimensions.space16),
 
-                // Password Field
-                AppTextField(
-                  label: 'Password',
-                  hintText: 'Enter your password',
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? PhosphorIconsRegular.eye
-                          : PhosphorIconsRegular.eyeSlash,
-                      size: 20,
-                      color: AppColors.textTertiary,
+                // Brand Header Icon Box
+                Row(
+                  children: [
+                    Container(
+                      width: 54,
+                      height: 54,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF0F766E), Color(0xFF115E59)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromRGBO(15, 118, 110, 0.22),
+                            blurRadius: 16,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        PhosphorIconsBold.compass,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                  validator: (val) {
-                    if (val == null || val.isEmpty) return 'Password is required';
-                    return null;
-                  },
-                  onSubmitted: (_) => _handleLogin(),
-                ),
-                const SizedBox(height: AppDimensions.space12),
-
-                // Forgot Password Link
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () => context.push('/auth/forgot-password'),
-                    child: Text(
-                      'Forgot password?',
-                      style: AppTypography.labelMedium.copyWith(color: AppColors.primary),
+                    const SizedBox(width: 14),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'TRIPCRAFT',
+                          style: AppTypography.labelLarge.copyWith(
+                            color: AppColors.primary,
+                            letterSpacing: 1.5,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Personalized Itineraries',
+                          style: AppTypography.bodySmall.copyWith(color: AppColors.textSecondary),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
                 const SizedBox(height: AppDimensions.space24),
 
-                // Sign In CTA
-                PrimaryButton(
-                  label: 'Sign In',
-                  onPressed: isLoading ? null : _handleLogin,
-                  isLoading: isLoading,
+                Text('Welcome back', style: AppTypography.displaySmall),
+                const SizedBox(height: AppDimensions.space6),
+                Text(
+                  'Sign in to access your itineraries and plan your next journey.',
+                  style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppDimensions.space28),
+
+                // Form Container
+                Container(
+                  padding: const EdgeInsets.all(AppDimensions.space20),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.border),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.02),
+                        blurRadius: 16,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      // Email Field
+                      AppTextField(
+                        label: 'Email Address',
+                        hintText: 'name@example.com',
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        prefixIcon: const Icon(PhosphorIconsRegular.envelope),
+                        validator: (val) {
+                          if (val == null || val.trim().isEmpty) return 'Email is required';
+                          if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email address';
+                          return null;
+                        },
+                        onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                      ),
+                      const SizedBox(height: AppDimensions.space16),
+
+                      // Password Field
+                      AppTextField(
+                        label: 'Password',
+                        hintText: 'Enter your password',
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? PhosphorIconsRegular.eye
+                                : PhosphorIconsRegular.eyeSlash,
+                            size: 20,
+                            color: AppColors.textTertiary,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                        validator: (val) {
+                          if (val == null || val.isEmpty) return 'Password is required';
+                          return null;
+                        },
+                        onSubmitted: (_) => _handleLogin(),
+                      ),
+                      const SizedBox(height: AppDimensions.space12),
+
+                      // Forgot Password Link
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () => context.push('/auth/forgot-password'),
+                          child: Text(
+                            'Forgot password?',
+                            style: AppTypography.labelMedium.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppDimensions.space20),
+
+                      // Sign In CTA
+                      PrimaryButton(
+                        label: 'Sign In',
+                        onPressed: isLoading ? null : _handleLogin,
+                        isLoading: isLoading,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: AppDimensions.space24),
 
@@ -199,7 +282,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         'Create account',
                         style: AppTypography.labelLarge.copyWith(
                           color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
