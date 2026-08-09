@@ -1,0 +1,1 @@
+// Repository contract: auth_repository.dart

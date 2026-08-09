@@ -1,0 +1,1 @@
+-- Migration SQL for 007_create_activities.sql

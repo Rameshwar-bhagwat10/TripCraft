@@ -1,0 +1,1 @@
+-- Migration SQL for 010_create_collaboration.sql

@@ -1,0 +1,1 @@
+// Domain Entity: user.dart

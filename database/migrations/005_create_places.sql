@@ -1,0 +1,1 @@
+-- Migration SQL for 005_create_places.sql

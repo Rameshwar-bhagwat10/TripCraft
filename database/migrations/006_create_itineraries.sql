@@ -1,0 +1,1 @@
+-- Migration SQL for 006_create_itineraries.sql

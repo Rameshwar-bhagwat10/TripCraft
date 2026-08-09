@@ -1,0 +1,1 @@
+// Domain Entity: itinerary.dart

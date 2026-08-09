@@ -1,0 +1,1 @@
+// State Provider: splash_provider.dart

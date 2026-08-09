@@ -1,0 +1,1 @@
+// Repository contract: user_repository.dart

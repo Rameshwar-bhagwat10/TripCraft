@@ -1,0 +1,1 @@
+// Widget UI: trip_member_avatar.dart

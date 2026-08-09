@@ -1,0 +1,1 @@
+# Supabase Database schema, policies and seed structures.

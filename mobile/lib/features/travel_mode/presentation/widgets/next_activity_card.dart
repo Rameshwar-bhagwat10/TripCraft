@@ -1,0 +1,1 @@
+// Widget UI: next_activity_card.dart

@@ -1,0 +1,1 @@
+-- Migration SQL for 009_create_expenses.sql

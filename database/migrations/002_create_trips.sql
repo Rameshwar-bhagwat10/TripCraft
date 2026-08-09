@@ -1,0 +1,1 @@
+-- Migration SQL for 002_create_trips.sql

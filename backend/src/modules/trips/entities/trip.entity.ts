@@ -1,0 +1,1 @@
+// Trip Database Entity Model

@@ -1,0 +1,1 @@
+-- Migration SQL for 011_create_chat.sql

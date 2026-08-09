@@ -1,0 +1,1 @@
+-- Migration SQL for 012_create_notifications.sql

@@ -1,0 +1,1 @@
+// Repository contract: weather_repository.dart

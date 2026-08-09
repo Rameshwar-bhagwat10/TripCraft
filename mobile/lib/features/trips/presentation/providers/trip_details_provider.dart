@@ -1,0 +1,1 @@
+// State Provider: trip_details_provider.dart

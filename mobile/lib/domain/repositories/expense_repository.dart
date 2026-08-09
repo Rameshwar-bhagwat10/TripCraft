@@ -1,0 +1,1 @@
+// Repository contract: expense_repository.dart

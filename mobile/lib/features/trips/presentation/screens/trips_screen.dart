@@ -1,0 +1,1 @@
+// Screen UI: trips_screen.dart

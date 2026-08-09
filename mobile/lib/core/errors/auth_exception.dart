@@ -1,0 +1,1 @@
+// Exception handling: auth_exception.dart

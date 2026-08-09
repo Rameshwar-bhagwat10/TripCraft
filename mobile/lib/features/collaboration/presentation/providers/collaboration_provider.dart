@@ -1,0 +1,1 @@
+// State Provider: collaboration_provider.dart

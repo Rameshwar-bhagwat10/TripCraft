@@ -1,0 +1,1 @@
+// Domain Entity: trip_member.dart

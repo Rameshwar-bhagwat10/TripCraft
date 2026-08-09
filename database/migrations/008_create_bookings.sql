@@ -1,0 +1,1 @@
+-- Migration SQL for 008_create_bookings.sql

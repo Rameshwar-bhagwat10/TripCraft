@@ -1,0 +1,1 @@
+// Repository contract: itinerary_repository.dart

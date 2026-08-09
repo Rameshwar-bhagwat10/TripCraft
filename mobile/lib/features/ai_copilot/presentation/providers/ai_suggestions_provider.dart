@@ -1,0 +1,1 @@
+// State Provider: ai_suggestions_provider.dart

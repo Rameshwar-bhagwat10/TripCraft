@@ -1,0 +1,55 @@
+# Environment & Secrets (CRITICAL)
+.env
+.env.*
+!.env.example
+*.env
+*.pem
+*.key
+*.p12
+
+# Node.js / NestJS Backend
+node_modules/
+dist/
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+
+# Flutter & Dart
+.dart_tool/
+.fvm/
+.pub-cache/
+.pub/
+build/
+ephemeral/
+*.flutter-plugins
+*.flutter-plugins-dependencies
+
+# Android
+.gradle/
+local.properties
+captures/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# iOS
+Pods/
+*.ipa
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+xcuserdata/
+
+# IDEs & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db

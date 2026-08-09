@@ -1,0 +1,1 @@
+-- Migration SQL for 003_create_trip_members.sql

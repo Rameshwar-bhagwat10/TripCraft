@@ -1,0 +1,1 @@
+-- Migration SQL for 004_create_destinations.sql

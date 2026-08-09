@@ -1,0 +1,1 @@
+// Repository contract: booking_repository.dart
