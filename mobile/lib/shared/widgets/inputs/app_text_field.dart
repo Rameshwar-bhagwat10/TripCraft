@@ -16,6 +16,7 @@ class AppTextField extends StatelessWidget {
   final bool enabled;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
+  final FormFieldValidator<String>? validator;
   final int maxLines;
 
   const AppTextField({
@@ -31,6 +32,7 @@ class AppTextField extends StatelessWidget {
     this.enabled = true,
     this.onChanged,
     this.onSubmitted,
+    this.validator,
     this.maxLines = 1,
   });
 
@@ -50,13 +52,14 @@ class AppTextField extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.space8),
         ],
-        TextField(
+        TextFormField(
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
           enabled: enabled,
           onChanged: onChanged,
-          onSubmitted: onSubmitted,
+          onFieldSubmitted: onSubmitted,
+          validator: validator,
           maxLines: maxLines,
           style: AppTypography.bodyMedium.copyWith(
             color: enabled ? AppColors.textPrimary : AppColors.textDisabled,

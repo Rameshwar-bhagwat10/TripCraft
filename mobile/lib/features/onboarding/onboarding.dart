@@ -1,1 +1,1 @@
-// Feature main entry: onboarding.dart
+export 'presentation/screens/onboarding_screen.dart';

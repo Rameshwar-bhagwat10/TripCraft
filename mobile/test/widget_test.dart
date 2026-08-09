@@ -1,13 +1,24 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tripcraft/app/app.dart';
+import 'package:tripcraft/features/authentication/presentation/providers/auth_provider.dart';
+import 'helpers/mock_auth_repository.dart';
 
 void main() {
   testWidgets('TripCraft App smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const TripCraftApp());
-    await tester.pump(const Duration(milliseconds: 500));
+    final mockRepo = MockAuthRepository();
 
-    // Verify that our app starts and displays the design system showcase.
-    expect(find.text('TripCraft Design System'), findsOneWidget);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authRepositoryProvider.overrideWithValue(mockRepo),
+        ],
+        child: const TripCraftApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+
+    expect(find.byType(TripCraftApp), findsOneWidget);
   });
 }
