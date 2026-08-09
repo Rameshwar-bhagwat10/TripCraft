@@ -17,37 +17,46 @@ class CompletionStep extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const SizedBox(height: AppDimensions.space32),
         Container(
-          width: 80,
-          height: 80,
-          decoration: const BoxDecoration(
-            color: AppColors.successLight,
+          width: 84,
+          height: 84,
+          decoration: BoxDecoration(
+            color: AppColors.primarySurface,
             shape: BoxShape.circle,
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(15, 118, 110, 0.16),
+                blurRadius: 24,
+                offset: Offset(0, 8),
+              ),
+            ],
           ),
           child: const Icon(
             PhosphorIconsBold.checkCircle,
-            size: 44,
-            color: AppColors.success,
+            size: 46,
+            color: AppColors.primary,
           ),
         ),
         const SizedBox(height: AppDimensions.space24),
         Text(
-          'Your Tripcraft is ready',
-          style: AppTypography.headlineLarge,
+          "You're all set!",
+          style: AppTypography.displaySmall,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppDimensions.space12),
+        const SizedBox(height: AppDimensions.space8),
         Text(
-          "We've personalized your travel experience based on your choices.",
-          style: AppTypography.bodyLarge.copyWith(color: AppColors.textSecondary),
+          'Tripcraft is now personalized around the exact way you love to travel.',
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppDimensions.space32),
+        const SizedBox(height: AppDimensions.space40),
         PrimaryButton(
           label: 'Start Exploring',
           isLoading: state.isSubmitting,
           onPressed: () => ref.read(onboardingProvider.notifier).completeOnboarding(),
         ),
+        const SizedBox(height: AppDimensions.space24),
       ],
     );
   }

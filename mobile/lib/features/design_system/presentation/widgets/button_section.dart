@@ -8,6 +8,7 @@ import '../../../../shared/widgets/buttons/primary_button.dart';
 import '../../../../shared/widgets/buttons/secondary_button.dart';
 import '../../../../shared/widgets/buttons/tertiary_button.dart';
 import '../../../../shared/widgets/cards/app_card.dart';
+import '../../../authentication/presentation/widgets/social_auth_button.dart';
 
 class ButtonSection extends StatelessWidget {
   const ButtonSection({super.key});
@@ -16,7 +17,7 @@ class ButtonSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionLayout(
       title: 'Buttons',
-      subtitle: 'Primary, Secondary, Tertiary, Destructive, and Icon Buttons',
+      subtitle: 'Primary, Secondary, Tertiary, Social, and Destructive Buttons',
       child: AppCard(
         padding: const EdgeInsets.all(AppDimensions.space16),
         child: Column(
@@ -49,6 +50,16 @@ class ButtonSection extends StatelessWidget {
               label: 'Secondary Loading',
               onPressed: () {},
               isLoading: true,
+            ),
+            const SizedBox(height: AppDimensions.space16),
+            SocialAuthButton(
+              provider: SocialProvider.google,
+              onPressed: () {},
+            ),
+            const SizedBox(height: AppDimensions.space12),
+            SocialAuthButton(
+              provider: SocialProvider.apple,
+              onPressed: () {},
             ),
             const SizedBox(height: AppDimensions.space16),
             Row(

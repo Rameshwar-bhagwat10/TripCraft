@@ -75,70 +75,84 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
     final email = ref.watch(authProvider).email ?? 'your email';
 
     return AppScaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(AppDimensions.pageMargin),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: const BoxDecoration(
-                  color: AppColors.primarySurface,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  PhosphorIconsRegular.envelopeOpen,
-                  size: 40,
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(height: AppDimensions.space24),
-              Text(
-                'Check your inbox',
-                style: AppTypography.headlineLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppDimensions.space12),
-              Text(
-                "We've sent a verification link to:",
-                style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppDimensions.space4),
-              Text(
-                email,
-                style: AppTypography.titleMedium.copyWith(color: AppColors.primary),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppDimensions.space12),
-              Text(
-                'Verify your email to continue using Tripcraft.',
-                style: AppTypography.bodySmall.copyWith(color: AppColors.textTertiary),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppDimensions.space32),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.pageMargin),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 76,
+                    height: 76,
+                    decoration: BoxDecoration(
+                      color: AppColors.primarySurface,
+                      shape: BoxShape.circle,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(15, 118, 110, 0.12),
+                          blurRadius: 16,
+                          offset: Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      PhosphorIconsBold.envelopeSimpleOpen,
+                      size: 38,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(height: AppDimensions.space24),
+                  Text(
+                    'Check your inbox',
+                    style: AppTypography.displaySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppDimensions.space8),
+                  Text(
+                    "We've sent a verification link to:",
+                    style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppDimensions.space4),
+                  Text(
+                    email,
+                    style: AppTypography.titleMedium.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppDimensions.space12),
+                  Text(
+                    'Verify your email to continue setting up your Tripcraft account.',
+                    style: AppTypography.bodySmall.copyWith(color: AppColors.textTertiary),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppDimensions.space32),
 
-              PrimaryButton(
-                label: "I've verified my email",
-                onPressed: _handleCheckVerification,
-              ),
-              const SizedBox(height: AppDimensions.space12),
+                  PrimaryButton(
+                    label: "I've verified my email",
+                    onPressed: _handleCheckVerification,
+                  ),
+                  const SizedBox(height: AppDimensions.space12),
 
-              SecondaryButton(
-                label: _cooldownSeconds > 0
-                    ? 'Resend available in ${_cooldownSeconds}s'
-                    : 'Resend verification email',
-                onPressed: _cooldownSeconds > 0 ? null : _handleResend,
-              ),
-              const SizedBox(height: AppDimensions.space16),
+                  SecondaryButton(
+                    label: _cooldownSeconds > 0
+                        ? 'Resend available in ${_cooldownSeconds}s'
+                        : 'Resend verification email',
+                    onPressed: _cooldownSeconds > 0 ? null : _handleResend,
+                  ),
+                  const SizedBox(height: AppDimensions.space16),
 
-              TertiaryButton(
-                label: 'Change Email / Sign Out',
-                onPressed: () => ref.read(authProvider.notifier).logout(),
+                  TertiaryButton(
+                    label: 'Change email / Sign out',
+                    onPressed: () => ref.read(authProvider.notifier).logout(),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

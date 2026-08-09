@@ -3,8 +3,8 @@ import '../../../app/app_colors.dart';
 import '../../../app/app_dimensions.dart';
 import '../../../app/app_elevation.dart';
 
-/// Reusable Standard Card Component in TripCraft.
-class AppCard extends StatelessWidget {
+/// Reusable iOS-style Card Component in TripCraft.
+class AppCard extends StatefulWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final VoidCallback? onTap;
@@ -27,42 +27,55 @@ class AppCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final Color effectiveBackground = isDisabled
-        ? AppColors.surfaceSecondary
-        : isSelected
-            ? AppColors.primarySurface
-            : (backgroundColor ?? AppColors.surface);
+  State<AppCard> createState() => _AppCardState();
+}
 
-    final Border effectiveBorder = border ??
+class _AppCardState extends State<AppCard> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool canTap = widget.onTap != null && !widget.isDisabled;
+
+    final Color effectiveBackground = widget.isDisabled
+        ? AppColors.surfaceSecondary
+        : widget.isSelected
+            ? AppColors.primarySurface
+            : (widget.backgroundColor ?? AppColors.surface);
+
+    final Border effectiveBorder = widget.border ??
         Border.all(
-          color: isSelected ? AppColors.primary : AppColors.border,
-          width: isSelected ? 1.5 : 1.0,
+          color: widget.isSelected ? AppColors.primary : AppColors.border,
+          width: widget.isSelected ? 1.5 : 1.0,
         );
 
-    final List<BoxShadow> effectiveShadow = shadow ??
-        (isSelected || isDisabled ? AppElevation.none : AppElevation.small);
+    final List<BoxShadow> effectiveShadow = widget.shadow ??
+        (widget.isSelected || widget.isDisabled ? AppElevation.none : AppElevation.small);
 
     final Widget cardBody = AnimatedContainer(
-      duration: const Duration(milliseconds: 150),
-      padding: padding ?? const EdgeInsets.all(AppDimensions.space16),
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOutCubic,
+      padding: widget.padding ?? const EdgeInsets.all(AppDimensions.space16),
       decoration: BoxDecoration(
         color: effectiveBackground,
         borderRadius: AppDimensions.cardRadius,
         border: effectiveBorder,
         boxShadow: effectiveShadow,
       ),
-      child: child,
+      child: widget.child,
     );
 
-    if (onTap != null && !isDisabled) {
-      return Material(
-        color: Colors.transparent,
-        borderRadius: AppDimensions.cardRadius,
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: AppDimensions.cardRadius,
+    if (canTap) {
+      return AnimatedScale(
+        scale: _isPressed ? 0.985 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        child: GestureDetector(
+          onTapDown: (_) => setState(() => _isPressed = true),
+          onTapUp: (_) {
+            setState(() => _isPressed = false);
+            widget.onTap?.call();
+          },
+          onTapCancel: () => setState(() => _isPressed = false),
           child: cardBody,
         ),
       );

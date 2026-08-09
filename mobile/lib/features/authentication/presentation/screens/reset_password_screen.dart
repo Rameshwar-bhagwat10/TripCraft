@@ -62,69 +62,81 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(AppDimensions.pageMargin),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: AppDimensions.space32),
-              Text('Create a new password', style: AppTypography.headlineLarge),
-              const SizedBox(height: AppDimensions.space8),
-              Text(
-                'Please enter your new password below.',
-                style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: AppDimensions.space32),
-
-              AppTextField(
-                label: 'New Password',
-                hintText: 'Enter new password',
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                onChanged: (_) => setState(() {}),
-                prefixIcon: const Icon(PhosphorIconsRegular.lockKey, size: 20),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword ? PhosphorIconsRegular.eye : PhosphorIconsRegular.eyeSlash,
-                    size: 20,
-                    color: AppColors.textTertiary,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscurePassword = !_obscurePassword;
-                    });
-                  },
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(PhosphorIconsRegular.caretLeft, color: AppColors.textPrimary, size: 24),
+          onPressed: () => context.pop(),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.pageMargin),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: AppDimensions.space12),
+                Text('Create a new password', style: AppTypography.displaySmall),
+                const SizedBox(height: AppDimensions.space6),
+                Text(
+                  'Choose a strong password for your Tripcraft account.',
+                  style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
                 ),
-                validator: (val) {
-                  if (val == null || val.isEmpty) return 'Password is required';
-                  if (val.length < 6) return 'Password must be at least 6 characters';
-                  return null;
-                },
-              ),
-              PasswordStrengthIndicator(password: _passwordController.text),
-              const SizedBox(height: AppDimensions.space16),
+                const SizedBox(height: AppDimensions.space28),
 
-              AppTextField(
-                label: 'Confirm Password',
-                hintText: 'Re-enter new password',
-                controller: _confirmPasswordController,
-                obscureText: true,
-                prefixIcon: const Icon(PhosphorIconsRegular.lockKey, size: 20),
-                validator: (val) {
-                  if (val != _passwordController.text) return 'Passwords do not match';
-                  return null;
-                },
-              ),
-              const SizedBox(height: AppDimensions.space24),
+                AppTextField(
+                  label: 'New Password',
+                  hintText: 'Enter new password',
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  onChanged: (_) => setState(() {}),
+                  prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? PhosphorIconsRegular.eye : PhosphorIconsRegular.eyeSlash,
+                      size: 20,
+                      color: AppColors.textTertiary,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                  validator: (val) {
+                    if (val == null || val.isEmpty) return 'Password is required';
+                    if (val.length < 6) return 'Password must be at least 6 characters';
+                    return null;
+                  },
+                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                ),
+                PasswordStrengthIndicator(password: _passwordController.text),
+                const SizedBox(height: AppDimensions.space16),
 
-              PrimaryButton(
-                label: 'Update password',
-                onPressed: _isLoading ? null : _handleUpdatePassword,
-                isLoading: _isLoading,
-              ),
-            ],
+                AppTextField(
+                  label: 'Confirm Password',
+                  hintText: 'Re-enter new password',
+                  controller: _confirmPasswordController,
+                  obscureText: true,
+                  prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
+                  validator: (val) {
+                    if (val != _passwordController.text) return 'Passwords do not match';
+                    return null;
+                  },
+                  onSubmitted: (_) => _handleUpdatePassword(),
+                ),
+                const SizedBox(height: AppDimensions.space24),
+
+                PrimaryButton(
+                  label: 'Update password',
+                  onPressed: _isLoading ? null : _handleUpdatePassword,
+                  isLoading: _isLoading,
+                ),
+              ],
+            ),
           ),
         ),
       ),

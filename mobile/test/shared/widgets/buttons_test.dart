@@ -18,7 +18,7 @@ void main() {
     );
 
     expect(find.text('Test Button'), findsOneWidget);
-    await tester.tap(find.byType(PrimaryButton));
+    await tester.tap(find.text('Test Button'));
     expect(tapped, isTrue);
   });
 

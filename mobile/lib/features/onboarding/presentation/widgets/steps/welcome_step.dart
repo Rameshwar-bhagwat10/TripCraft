@@ -13,12 +13,20 @@ class WelcomeStep extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const SizedBox(height: AppDimensions.space24),
         Container(
           width: 80,
           height: 80,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.primarySurface,
             shape: BoxShape.circle,
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(15, 118, 110, 0.14),
+                blurRadius: 20,
+                offset: Offset(0, 8),
+              ),
+            ],
           ),
           child: const Icon(
             PhosphorIconsBold.sparkle,
@@ -29,24 +37,28 @@ class WelcomeStep extends StatelessWidget {
         const SizedBox(height: AppDimensions.space24),
         Text(
           'Welcome to Tripcraft',
-          style: AppTypography.headlineLarge,
+          style: AppTypography.displaySmall,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppDimensions.space12),
+        const SizedBox(height: AppDimensions.space8),
         Text(
           "Let's personalize your travel experience.",
-          style: AppTypography.titleMedium.copyWith(color: AppColors.primary),
+          style: AppTypography.titleMedium.copyWith(
+            color: AppColors.primary,
+            fontWeight: FontWeight.w600,
+          ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: AppDimensions.space16),
+        const SizedBox(height: AppDimensions.space24),
         AppCard(
           padding: const EdgeInsets.all(AppDimensions.space20),
           child: Text(
-            "We'll use a few quick choices to tailor destinations, activities, and future trip plans exclusively for you.",
-            style: AppTypography.bodyLarge.copyWith(color: AppColors.textSecondary),
+            "We'll ask a few quick choices to tailor destinations, activities, and AI trip recommendations around your unique travel style.",
+            style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
             textAlign: TextAlign.center,
           ),
         ),
+        const SizedBox(height: AppDimensions.space24),
       ],
     );
   }

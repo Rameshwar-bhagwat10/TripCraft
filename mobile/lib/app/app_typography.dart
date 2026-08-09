@@ -36,6 +36,12 @@ abstract class AppTypography {
         fontWeight: FontWeight.w700,
       );
 
+  static TextStyle get displaySmall => _baseStyle(
+        fontSize: 32,
+        height: 40,
+        fontWeight: FontWeight.w700,
+      );
+
   // Headline Tier (700 Bold)
   static TextStyle get headlineLarge => _baseStyle(
         fontSize: 32,
@@ -93,6 +99,13 @@ abstract class AppTypography {
         fontWeight: FontWeight.w400,
       );
 
+  static TextStyle get caption => _baseStyle(
+        fontSize: 12,
+        height: 16,
+        fontWeight: FontWeight.w400,
+        color: AppColors.textTertiary,
+      );
+
   // Label Tier (500 Medium)
   static TextStyle get labelLarge => _baseStyle(
         fontSize: 14,
@@ -124,6 +137,7 @@ abstract class AppTypography {
   static TextTheme get textTheme => TextTheme(
         displayLarge: displayLarge,
         displayMedium: displayMedium,
+        displaySmall: displaySmall,
         headlineLarge: headlineLarge,
         headlineMedium: headlineMedium,
         headlineSmall: headlineSmall,

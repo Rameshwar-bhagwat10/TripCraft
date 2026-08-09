@@ -41,23 +41,23 @@ class PasswordStrengthIndicator extends StatelessWidget {
 
     Color color;
     String text;
-    double progress;
+    int filledSegments;
 
     switch (strength) {
       case PasswordStrength.weak:
         color = AppColors.error;
         text = 'Weak password';
-        progress = 0.33;
+        filledSegments = 1;
         break;
       case PasswordStrength.medium:
         color = AppColors.warning;
         text = 'Medium strength';
-        progress = 0.66;
+        filledSegments = 3;
         break;
       case PasswordStrength.strong:
         color = AppColors.success;
         text = 'Strong password';
-        progress = 1.0;
+        filledSegments = 4;
         break;
       case PasswordStrength.none:
         return const SizedBox.shrink();
@@ -70,20 +70,30 @@ class PasswordStrengthIndicator extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: AppDimensions.borderXS,
-                child: LinearProgressIndicator(
-                  value: progress,
-                  backgroundColor: AppColors.surfaceSecondary,
-                  valueColor: AlwaysStoppedAnimation<Color>(color),
-                  minHeight: 4,
-                ),
+              child: Row(
+                children: List.generate(4, (index) {
+                  final isFilled = index < filledSegments;
+                  return Expanded(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      height: 4,
+                      margin: EdgeInsets.only(right: index < 3 ? 4.0 : 0.0),
+                      decoration: BoxDecoration(
+                        color: isFilled ? color : AppColors.surfaceSecondary,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  );
+                }),
               ),
             ),
             const SizedBox(width: AppDimensions.space12),
             Text(
               text,
-              style: AppTypography.labelSmall.copyWith(color: color),
+              style: AppTypography.labelSmall.copyWith(
+                color: color,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../app/app_colors.dart';
 import '../../../app/app_dimensions.dart';
 import '../../../app/app_typography.dart';
@@ -12,8 +13,8 @@ enum AppChipVariant {
   ai,
 }
 
-/// Reusable Chip Component for TripCraft categories and filters.
-class AppChip extends StatelessWidget {
+/// Reusable iOS-style Chip Component for TripCraft categories and filters.
+class AppChip extends StatefulWidget {
   final String label;
   final bool isSelected;
   final VoidCallback? onTap;
@@ -30,23 +31,30 @@ class AppChip extends StatelessWidget {
   });
 
   @override
+  State<AppChip> createState() => _AppChipState();
+}
+
+class _AppChipState extends State<AppChip> {
+  bool _isPressed = false;
+
+  @override
   Widget build(BuildContext context) {
     Color bg;
     Color fg;
     BorderSide border = BorderSide.none;
 
-    final effectiveVariant = isSelected ? AppChipVariant.selected : variant;
+    final effectiveVariant = widget.isSelected ? AppChipVariant.selected : widget.variant;
 
     switch (effectiveVariant) {
       case AppChipVariant.selected:
-        bg = AppColors.primaryLight;
-        fg = AppColors.primaryDark;
-        border = const BorderSide(color: AppColors.primary, width: 1);
+        bg = AppColors.primarySurface;
+        fg = AppColors.primary;
+        border = const BorderSide(color: AppColors.primary, width: 1.5);
         break;
       case AppChipVariant.outlined:
         bg = Colors.transparent;
         fg = AppColors.textSecondary;
-        border = const BorderSide(color: AppColors.borderStrong, width: 1);
+        border = const BorderSide(color: AppColors.border, width: 1.0);
         break;
       case AppChipVariant.success:
         bg = AppColors.successLight;
@@ -61,44 +69,68 @@ class AppChip extends StatelessWidget {
         fg = AppColors.aiAccent;
         break;
       case AppChipVariant.standard:
-        bg = AppColors.surfaceSecondary;
+        bg = AppColors.surface;
         fg = AppColors.textPrimary;
+        border = const BorderSide(color: AppColors.border, width: 1.0);
         break;
     }
 
-    return Material(
-      color: bg,
-      borderRadius: AppDimensions.borderPill,
-      child: InkWell(
-        onTap: onTap,
+    final Widget chipContent = AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppDimensions.space14,
+        vertical: AppDimensions.space10,
+      ),
+      decoration: BoxDecoration(
+        color: bg,
         borderRadius: AppDimensions.borderPill,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppDimensions.space12,
-            vertical: AppDimensions.space6,
+        border: border != BorderSide.none ? Border.fromBorderSide(border) : null,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.icon != null) ...[
+            IconTheme(
+              data: IconThemeData(size: 16, color: fg),
+              child: widget.icon!,
+            ),
+            const SizedBox(width: AppDimensions.space6),
+          ],
+          Text(
+            widget.label,
+            style: AppTypography.labelMedium.copyWith(
+              color: fg,
+              fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w500,
+            ),
           ),
-          decoration: BoxDecoration(
-            borderRadius: AppDimensions.borderPill,
-            border: border != BorderSide.none ? Border.fromBorderSide(border) : null,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (icon != null) ...[
-                icon!,
-                const SizedBox(width: AppDimensions.space6),
-              ],
-              Text(
-                label,
-                style: AppTypography.labelMedium.copyWith(
-                  color: fg,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
+          if (widget.isSelected) ...[
+            const SizedBox(width: AppDimensions.space6),
+            Icon(
+              PhosphorIconsBold.check,
+              size: 14,
+              color: fg,
+            ),
+          ],
+        ],
       ),
     );
+
+    if (widget.onTap != null) {
+      return AnimatedScale(
+        scale: _isPressed ? 0.96 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        child: GestureDetector(
+          onTapDown: (_) => setState(() => _isPressed = true),
+          onTapUp: (_) {
+            setState(() => _isPressed = false);
+            widget.onTap?.call();
+          },
+          onTapCancel: () => setState(() => _isPressed = false),
+          child: chipContent,
+        ),
+      );
+    }
+
+    return chipContent;
   }
 }

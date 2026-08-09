@@ -58,69 +58,76 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         backgroundColor: AppColors.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft, color: AppColors.textPrimary),
+          icon: const Icon(PhosphorIconsRegular.caretLeft, color: AppColors.textPrimary, size: 24),
           onPressed: () => context.pop(),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppDimensions.pageMargin),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Forgot your password?', style: AppTypography.headlineLarge),
-              const SizedBox(height: AppDimensions.space8),
-              Text(
-                "Enter your email and we'll send you a secure password reset link.",
-                style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: AppDimensions.space32),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.pageMargin),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: AppDimensions.space12),
+                Text('Forgot your password?', style: AppTypography.displaySmall),
+                const SizedBox(height: AppDimensions.space6),
+                Text(
+                  "Enter your email and we'll send you a secure reset link.",
+                  style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppDimensions.space28),
 
-              if (_emailSent) ...[
-                Container(
-                  padding: const EdgeInsets.all(AppDimensions.space16),
-                  decoration: BoxDecoration(
-                    color: AppColors.primarySurface,
-                    borderRadius: AppDimensions.borderMD,
-                    border: Border.all(color: AppColors.primaryLight),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(PhosphorIconsRegular.checkCircle, color: AppColors.primary),
-                      const SizedBox(width: AppDimensions.space12),
-                      Expanded(
-                        child: Text(
-                          'Check your email for reset instructions.',
-                          style: AppTypography.bodyMedium.copyWith(color: AppColors.primaryDark),
+                if (_emailSent) ...[
+                  Container(
+                    padding: const EdgeInsets.all(AppDimensions.space16),
+                    decoration: BoxDecoration(
+                      color: AppColors.primarySurface,
+                      borderRadius: AppDimensions.cardRadius,
+                      border: Border.all(color: AppColors.primaryLight),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(PhosphorIconsBold.checkCircle, color: AppColors.primary),
+                        const SizedBox(width: AppDimensions.space12),
+                        Expanded(
+                          child: Text(
+                            'Check your email for reset instructions.',
+                            style: AppTypography.bodyMedium.copyWith(
+                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  const SizedBox(height: AppDimensions.space24),
+                ],
+
+                AppTextField(
+                  label: 'Email',
+                  hintText: 'name@example.com',
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  prefixIcon: const Icon(PhosphorIconsRegular.envelope),
+                  validator: (val) {
+                    if (val == null || val.trim().isEmpty) return 'Email is required';
+                    if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email address';
+                    return null;
+                  },
+                  onSubmitted: (_) => _handleReset(),
                 ),
                 const SizedBox(height: AppDimensions.space24),
+
+                PrimaryButton(
+                  label: 'Send reset link',
+                  onPressed: _isLoading ? null : _handleReset,
+                  isLoading: _isLoading,
+                ),
               ],
-
-              AppTextField(
-                label: 'Email',
-                hintText: 'Enter your email',
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                prefixIcon: const Icon(PhosphorIconsRegular.envelope, size: 20),
-                validator: (val) {
-                  if (val == null || val.trim().isEmpty) return 'Email is required';
-                  if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email';
-                  return null;
-                },
-              ),
-              const SizedBox(height: AppDimensions.space24),
-
-              PrimaryButton(
-                label: 'Send reset link',
-                onPressed: _isLoading ? null : _handleReset,
-                isLoading: _isLoading,
-              ),
-            ],
+            ),
           ),
         ),
       ),

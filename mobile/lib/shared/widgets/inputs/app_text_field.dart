@@ -3,7 +3,7 @@ import '../../../app/app_colors.dart';
 import '../../../app/app_dimensions.dart';
 import '../../../app/app_typography.dart';
 
-/// Reusable Standard Text Field for TripCraft forms.
+/// Reusable iOS-style Standard Text Field for TripCraft forms.
 class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? label;
@@ -46,11 +46,11 @@ class AppTextField extends StatelessWidget {
           Text(
             label!,
             style: AppTypography.labelMedium.copyWith(
-              color: AppColors.textSecondary,
+              color: AppColors.textPrimary,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: AppDimensions.space8),
+          const SizedBox(height: AppDimensions.space6),
         ],
         TextFormField(
           controller: controller,
@@ -67,8 +67,45 @@ class AppTextField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText,
             errorText: errorText,
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
+            prefixIcon: prefixIcon != null
+                ? IconTheme(
+                    data: const IconThemeData(color: AppColors.textSecondary, size: 20),
+                    child: prefixIcon!,
+                  )
+                : null,
+            suffixIcon: suffixIcon != null
+                ? IconTheme(
+                    data: const IconThemeData(color: AppColors.textSecondary, size: 20),
+                    child: suffixIcon!,
+                  )
+                : null,
+            filled: true,
+            fillColor: enabled ? AppColors.surface : AppColors.surfaceSecondary,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.space16,
+              vertical: AppDimensions.space14,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: AppDimensions.inputRadius,
+              borderSide: const BorderSide(color: AppColors.border, width: 1.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: AppDimensions.inputRadius,
+              borderSide: const BorderSide(color: AppColors.border, width: 1.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: AppDimensions.inputRadius,
+              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: AppDimensions.inputRadius,
+              borderSide: const BorderSide(color: AppColors.error, width: 1.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: AppDimensions.inputRadius,
+              borderSide: const BorderSide(color: AppColors.error, width: 1.5),
+            ),
+            errorStyle: AppTypography.caption.copyWith(color: AppColors.error),
           ),
         ),
       ],

@@ -57,6 +57,7 @@ class OnboardingScreen extends ConsumerWidget {
     }
 
     final double progress = (state.currentStep - 1) / 7.0;
+    final String stepText = '0${state.currentStep - 1} / 07';
 
     return AppScaffold(
       appBar: AppBar(
@@ -64,21 +65,24 @@ class OnboardingScreen extends ConsumerWidget {
         elevation: 0,
         leading: state.currentStep > 1 && state.currentStep < 8
             ? IconButton(
-                icon: const Icon(PhosphorIconsRegular.arrowLeft, color: AppColors.textPrimary),
+                icon: const Icon(PhosphorIconsRegular.caretLeft, color: AppColors.textPrimary, size: 24),
                 onPressed: () => notifier.previousStep(),
               )
             : null,
-        title: state.currentStep < 8
+        title: state.currentStep > 1 && state.currentStep < 8
             ? Text(
-                'Step ${state.currentStep} of 7',
-                style: AppTypography.labelMedium.copyWith(color: AppColors.textSecondary),
+                stepText,
+                style: AppTypography.labelMedium.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
+                ),
               )
             : null,
         centerTitle: true,
       ),
       body: Column(
         children: [
-          if (state.currentStep < 8)
+          if (state.currentStep > 1 && state.currentStep < 8)
             LinearProgressIndicator(
               value: progress.clamp(0.05, 1.0),
               backgroundColor: AppColors.surfaceSecondary,
@@ -87,11 +91,26 @@ class OnboardingScreen extends ConsumerWidget {
             ),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppDimensions.pageMargin),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.pageMargin,
+                vertical: AppDimensions.space16,
+              ),
               child: AnimatedSwitcher(
                 duration: AppMotion.normal,
                 switchInCurve: AppMotion.enterCurve,
                 switchOutCurve: AppMotion.exitCurve,
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.04, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
+                },
                 child: KeyedSubtree(
                   key: ValueKey<int>(state.currentStep),
                   child: currentStepWidget,
@@ -100,11 +119,16 @@ class OnboardingScreen extends ConsumerWidget {
             ),
           ),
           if (state.currentStep < 8)
-            Padding(
-              padding: const EdgeInsets.all(AppDimensions.pageMargin),
-              child: PrimaryButton(
-                label: state.currentStep == 1 ? "Let's get started" : 'Continue',
-                onPressed: () => notifier.nextStep(),
+            SafeArea(
+              child: Container(
+                padding: const EdgeInsets.all(AppDimensions.pageMargin),
+                decoration: const BoxDecoration(
+                  color: AppColors.background,
+                ),
+                child: PrimaryButton(
+                  label: state.currentStep == 1 ? "Let's get started" : 'Continue',
+                  onPressed: () => notifier.nextStep(),
+                ),
               ),
             ),
         ],

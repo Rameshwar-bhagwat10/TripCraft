@@ -59,148 +59,155 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final isLoading = authState.status == AuthStatus.authenticating;
 
     return AppScaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppDimensions.pageMargin),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: AppDimensions.space32),
-              // Header Logo
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: AppColors.primarySurface,
-                  borderRadius: AppDimensions.borderMD,
-                ),
-                child: const Icon(
-                  PhosphorIconsBold.compass,
-                  color: AppColors.primary,
-                  size: 32,
-                ),
-              ),
-              const SizedBox(height: AppDimensions.space24),
-              Text('Welcome back', style: AppTypography.headlineLarge),
-              const SizedBox(height: AppDimensions.space8),
-              Text(
-                'Sign in to continue planning better trips.',
-                style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: AppDimensions.space32),
-
-              // Email Field
-              AppTextField(
-                label: 'Email',
-                hintText: 'Enter your email',
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                prefixIcon: const Icon(PhosphorIconsRegular.envelope, size: 20),
-                validator: (val) {
-                  if (val == null || val.trim().isEmpty) return 'Email is required';
-                  if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email';
-                  return null;
-                },
-              ),
-              const SizedBox(height: AppDimensions.space16),
-
-              // Password Field
-              AppTextField(
-                label: 'Password',
-                hintText: 'Enter your password',
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                prefixIcon: const Icon(PhosphorIconsRegular.lockKey, size: 20),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword
-                        ? PhosphorIconsRegular.eye
-                        : PhosphorIconsRegular.eyeSlash,
-                    size: 20,
-                    color: AppColors.textTertiary,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.pageMargin),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: AppDimensions.space24),
+                // Brand Header Icon
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: AppColors.primarySurface,
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _obscurePassword = !_obscurePassword;
-                    });
+                  child: const Icon(
+                    PhosphorIconsBold.compass,
+                    color: AppColors.primary,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: AppDimensions.space20),
+                Text('Welcome back', style: AppTypography.displaySmall),
+                const SizedBox(height: AppDimensions.space6),
+                Text(
+                  'Sign in to continue planning your next journey.',
+                  style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: AppDimensions.space32),
+
+                // Email Field
+                AppTextField(
+                  label: 'Email',
+                  hintText: 'name@example.com',
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  prefixIcon: const Icon(PhosphorIconsRegular.envelope),
+                  validator: (val) {
+                    if (val == null || val.trim().isEmpty) return 'Email is required';
+                    if (!val.contains('@') || !val.contains('.')) return 'Enter a valid email address';
+                    return null;
                   },
+                  onSubmitted: (_) => FocusScope.of(context).nextFocus(),
                 ),
-                validator: (val) {
-                  if (val == null || val.isEmpty) return 'Password is required';
-                  return null;
-                },
-              ),
-              const SizedBox(height: AppDimensions.space12),
+                const SizedBox(height: AppDimensions.space16),
 
-              // Forgot Password Link
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => context.push('/auth/forgot-password'),
-                  child: Text(
-                    'Forgot password?',
-                    style: AppTypography.labelMedium.copyWith(color: AppColors.primary),
+                // Password Field
+                AppTextField(
+                  label: 'Password',
+                  hintText: 'Enter your password',
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  prefixIcon: const Icon(PhosphorIconsRegular.lockKey),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? PhosphorIconsRegular.eye
+                          : PhosphorIconsRegular.eyeSlash,
+                      size: 20,
+                      color: AppColors.textTertiary,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
+                  validator: (val) {
+                    if (val == null || val.isEmpty) return 'Password is required';
+                    return null;
+                  },
+                  onSubmitted: (_) => _handleLogin(),
                 ),
-              ),
-              const SizedBox(height: AppDimensions.space20),
+                const SizedBox(height: AppDimensions.space12),
 
-              // Sign In CTA
-              PrimaryButton(
-                label: 'Sign In',
-                onPressed: isLoading ? null : _handleLogin,
-                isLoading: isLoading,
-              ),
-              const SizedBox(height: AppDimensions.space24),
-
-              // OR Divider
-              Row(
-                children: [
-                  const Expanded(child: Divider()),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppDimensions.space16),
+                // Forgot Password Link
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => context.push('/auth/forgot-password'),
                     child: Text(
-                      'OR',
-                      style: AppTypography.labelSmall.copyWith(color: AppColors.textTertiary),
+                      'Forgot password?',
+                      style: AppTypography.labelMedium.copyWith(color: AppColors.primary),
                     ),
                   ),
-                  const Expanded(child: Divider()),
-                ],
-              ),
-              const SizedBox(height: AppDimensions.space24),
+                ),
+                const SizedBox(height: AppDimensions.space24),
 
-              // Social Auth Buttons
-              SocialAuthButton(
-                provider: SocialProvider.google,
-                onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
-              ),
-              const SizedBox(height: AppDimensions.space12),
-              SocialAuthButton(
-                provider: SocialProvider.apple,
-                onPressed: () => ref.read(authProvider.notifier).signInWithApple(),
-              ),
-              const SizedBox(height: AppDimensions.space32),
+                // Sign In CTA
+                PrimaryButton(
+                  label: 'Sign In',
+                  onPressed: isLoading ? null : _handleLogin,
+                  isLoading: isLoading,
+                ),
+                const SizedBox(height: AppDimensions.space24),
 
-              // Register Link
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account? ",
-                    style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-                  ),
-                  GestureDetector(
-                    onTap: () => context.push(RouteConstants.register),
-                    child: Text(
-                      'Create account',
-                      style: AppTypography.labelLarge.copyWith(color: AppColors.primary),
+                // Divider
+                Row(
+                  children: [
+                    const Expanded(child: Divider(color: AppColors.border)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.space16),
+                      child: Text(
+                        'or continue with',
+                        style: AppTypography.caption.copyWith(color: AppColors.textTertiary),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppDimensions.space32),
-            ],
+                    const Expanded(child: Divider(color: AppColors.border)),
+                  ],
+                ),
+                const SizedBox(height: AppDimensions.space20),
+
+                // Social Auth Buttons
+                SocialAuthButton(
+                  provider: SocialProvider.google,
+                  onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
+                ),
+                const SizedBox(height: AppDimensions.space12),
+                SocialAuthButton(
+                  provider: SocialProvider.apple,
+                  onPressed: () => ref.read(authProvider.notifier).signInWithApple(),
+                ),
+                const SizedBox(height: AppDimensions.space32),
+
+                // Create Account Link
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
+                      style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                    ),
+                    GestureDetector(
+                      onTap: () => context.push(RouteConstants.register),
+                      child: Text(
+                        'Create account',
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppDimensions.space24),
+              ],
+            ),
           ),
         ),
       ),

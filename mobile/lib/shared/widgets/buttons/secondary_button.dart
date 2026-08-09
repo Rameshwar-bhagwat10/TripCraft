@@ -4,7 +4,7 @@ import '../../../app/app_dimensions.dart';
 import '../../../app/app_typography.dart';
 
 /// Reusable Secondary Button for secondary actions in TripCraft.
-class SecondaryButton extends StatelessWidget {
+class SecondaryButton extends StatefulWidget {
   final String label;
   final VoidCallback? onPressed;
   final bool isLoading;
@@ -25,14 +25,21 @@ class SecondaryButton extends StatelessWidget {
   });
 
   @override
+  State<SecondaryButton> createState() => _SecondaryButtonState();
+}
+
+class _SecondaryButtonState extends State<SecondaryButton> {
+  bool _isPressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    final bool canPress = !isLoading && !isDisabled && onPressed != null;
+    final bool canPress = !widget.isLoading && !widget.isDisabled && widget.onPressed != null;
 
     final Widget buttonContent = Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (isLoading) ...[
+        if (widget.isLoading) ...[
           const SizedBox(
             width: 18,
             height: 18,
@@ -42,34 +49,48 @@ class SecondaryButton extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppDimensions.space8),
-        ] else if (icon != null) ...[
-          icon!,
+        ] else if (widget.icon != null) ...[
+          widget.icon!,
           const SizedBox(width: AppDimensions.space8),
         ],
         Text(
-          label,
-          style: AppTypography.buttonLabel.copyWith(
+          widget.label,
+          style: AppTypography.labelLarge.copyWith(
             color: canPress ? AppColors.primary : AppColors.textDisabled,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],
     );
 
-    return SizedBox(
-      height: height ?? AppDimensions.buttonHeight,
-      width: isFullWidth ? double.infinity : null,
-      child: ElevatedButton(
-        onPressed: canPress ? onPressed : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primarySurface,
-          foregroundColor: AppColors.primary,
-          disabledBackgroundColor: AppColors.surfaceSecondary,
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: AppDimensions.buttonRadius,
+    return AnimatedScale(
+      scale: _isPressed && canPress ? 0.98 : 1.0,
+      duration: const Duration(milliseconds: 100),
+      child: GestureDetector(
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
+        child: SizedBox(
+          height: widget.height ?? AppDimensions.buttonHeight,
+          width: widget.isFullWidth ? double.infinity : null,
+          child: OutlinedButton(
+            onPressed: canPress ? widget.onPressed : null,
+            style: OutlinedButton.styleFrom(
+              backgroundColor: AppColors.surface,
+              foregroundColor: AppColors.primary,
+              disabledBackgroundColor: AppColors.surfaceSecondary,
+              side: BorderSide(
+                color: canPress ? AppColors.border : AppColors.border,
+                width: 1.0,
+              ),
+              elevation: 0,
+              shape: const RoundedRectangleBorder(
+                borderRadius: AppDimensions.buttonRadius,
+              ),
+            ),
+            child: buttonContent,
           ),
         ),
-        child: buttonContent,
       ),
     );
   }
