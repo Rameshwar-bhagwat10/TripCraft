@@ -9,6 +9,7 @@ import { UsersModule } from "./modules/users/users.module";
 import { HomeModule } from "./modules/home/home.module";
 import { DestinationsModule } from "./modules/destinations/destinations.module";
 import { TripsModule } from "./modules/trips/trips.module";
+import { ItineraryModule } from "./modules/itinerary/itinerary.module";
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TripsModule } from "./modules/trips/trips.module";
     HomeModule,
     DestinationsModule,
     TripsModule,
+    ItineraryModule,
   ],
 })
 export class AppModule {}

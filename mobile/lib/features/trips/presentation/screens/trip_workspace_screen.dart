@@ -276,12 +276,7 @@ class TripWorkspaceScreen extends ConsumerWidget {
                                   icon: const Icon(PhosphorIconsBold.calendar, size: 18),
                                   onPressed: () {
                                     HapticFeedback.mediumImpact();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Itinerary Builder (Phase 8) coming next for ${trip.title}!'),
-                                        backgroundColor: AppColors.primary,
-                                      ),
-                                    );
+                                    context.push('/trips/${trip.id}/itinerary');
                                   },
                                 ),
                               ],
@@ -305,9 +300,7 @@ class TripWorkspaceScreen extends ConsumerWidget {
                             subtitle: 'Day-by-day activities & timelines',
                             badgeText: 'Primary',
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Itinerary Builder Phase 8 ready')),
-                              );
+                              context.push('/trips/${trip.id}/itinerary');
                             },
                           ),
                           const SizedBox(height: AppDimensions.space10),

@@ -14,6 +14,8 @@ import '../features/explore/presentation/screens/destination_details_screen.dart
 import '../features/explore/presentation/screens/destination_search_screen.dart';
 import '../features/explore/presentation/screens/explore_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
+import '../features/itinerary/presentation/screens/itinerary_item_details_screen.dart';
+import '../features/itinerary/presentation/screens/itinerary_screen.dart';
 import '../features/onboarding/onboarding.dart';
 import '../features/profile/presentation/screens/app_preferences_screen.dart';
 import '../features/profile/presentation/screens/edit_profile_screen.dart';
@@ -200,6 +202,21 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? 'trip-goa-escape';
           return EditTripScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/itinerary',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return ItineraryScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/items/:itemId',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final itemId = state.pathParameters['itemId'] ?? 'item-1';
+          return ItineraryItemDetailsScreen(tripId: id, itemId: itemId);
         },
       ),
       GoRoute(
