@@ -12,6 +12,10 @@ import '../features/authentication/presentation/screens/verify_email_screen.dart
 import '../features/design_system/design_system.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/onboarding/onboarding.dart';
+import '../features/profile/presentation/screens/app_preferences_screen.dart';
+import '../features/profile/presentation/screens/edit_profile_screen.dart';
+import '../features/profile/presentation/screens/profile_screen.dart';
+import '../features/profile/presentation/screens/travel_preferences_screen.dart';
 import '../features/splash/presentation/screens/splash_screen.dart';
 
 class AppRoutes {
@@ -109,6 +113,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteConstants.home,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.profile,
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.editProfile,
+        builder: (context, state) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.travelPreferences,
+        builder: (context, state) => const TravelPreferencesScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.appPreferences,
+        builder: (context, state) => const AppPreferencesScreen(),
       ),
       GoRoute(
         path: AppRoutes.designSystem,

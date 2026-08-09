@@ -22,6 +22,8 @@ class ApiClient {
     ]);
   }
 
+  Dio get client => _dio;
+
   Future<NetworkResponse<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,

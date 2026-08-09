@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -9,6 +10,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { CurrentUser, UserContext } from '../../auth/decorators/user.decorator';
 import { SupabaseAuthGuard } from '../../auth/guards/supabase_auth.guard';
 import { UpdatePreferencesDto } from '../dto/update_preferences.dto';
+import { UpdateProfileDto } from '../dto/update_profile.dto';
 import { UsersService } from '../services/users.service';
 
 @ApiTags('users')
@@ -26,9 +28,20 @@ export class UsersController {
     return this.usersService.getProfile(user);
   }
 
+  @Patch('me')
+  @ApiOperation({ summary: 'Update user profile (fullName, avatarUrl, language, currency)' })
+  @ApiResponse({ status: 200, description: 'User profile updated successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async updateProfile(
+    @CurrentUser() user: UserContext,
+    @Body() dto: UpdateProfileDto,
+  ) {
+    return this.usersService.updateProfile(user, dto);
+  }
+
   @Put('me/preferences')
-  @ApiOperation({ summary: 'Save onboarding travel preferences and mark onboarding complete' })
-  @ApiResponse({ status: 200, description: 'Preferences saved and onboarding completed' })
+  @ApiOperation({ summary: 'Save travel preferences, accessibility, and personalization settings' })
+  @ApiResponse({ status: 200, description: 'Preferences saved successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async updatePreferences(
     @CurrentUser() user: UserContext,

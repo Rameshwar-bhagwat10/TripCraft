@@ -9,6 +9,7 @@ describe('UsersController', () => {
 
   const mockUsersService = {
     getProfile: jest.fn(),
+    updateProfile: jest.fn(),
     updatePreferences: jest.fn(),
   };
 
@@ -40,5 +41,25 @@ describe('UsersController', () => {
     const result = await controller.getProfile(user);
     expect(result).toEqual({ id: 'uuid-1', email: 'test@example.com' });
     expect(service.getProfile).toHaveBeenCalledWith(user);
+  });
+
+  it('updateProfile should call service.updateProfile', async () => {
+    const user = { id: 'uuid-1', email: 'test@example.com' };
+    const dto = { fullName: 'Jane Doe', language: 'en', currency: 'USD' };
+    mockUsersService.updateProfile.mockResolvedValue({ id: 'uuid-1', fullName: 'Jane Doe' });
+
+    const result = await controller.updateProfile(user, dto);
+    expect(result).toEqual({ id: 'uuid-1', fullName: 'Jane Doe' });
+    expect(service.updateProfile).toHaveBeenCalledWith(user, dto);
+  });
+
+  it('updatePreferences should call service.updatePreferences', async () => {
+    const user = { id: 'uuid-1', email: 'test@example.com' };
+    const dto = { travelStyles: ['Adventure'], budgetLevel: 'Luxury', reducedMotion: true };
+    mockUsersService.updatePreferences.mockResolvedValue({ id: 'uuid-1', onboardingCompleted: true });
+
+    const result = await controller.updatePreferences(user, dto);
+    expect(result).toEqual({ id: 'uuid-1', onboardingCompleted: true });
+    expect(service.updatePreferences).toHaveBeenCalledWith(user, dto);
   });
 });

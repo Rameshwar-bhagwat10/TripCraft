@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../database/prisma/prisma.service';
 import { UserContext } from '../../auth/decorators/user.decorator';
 import { UpdatePreferencesDto } from '../dto/update_preferences.dto';
+import { UpdateProfileDto } from '../dto/update_profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,24 @@ export class UsersService {
     return profile;
   }
 
+  async updateProfile(userCtx: UserContext, dto: UpdateProfileDto) {
+    // Ensure profile exists
+    await this.getProfile(userCtx);
+
+    const updatedProfile = await this.prisma.user.update({
+      where: { id: userCtx.id },
+      data: {
+        ...(dto.fullName !== undefined && { fullName: dto.fullName }),
+        ...(dto.avatarUrl !== undefined && { avatarUrl: dto.avatarUrl }),
+        ...(dto.language !== undefined && { language: dto.language }),
+        ...(dto.currency !== undefined && { currency: dto.currency }),
+      },
+      include: { preferences: true },
+    });
+
+    return updatedProfile;
+  }
+
   async updatePreferences(userCtx: UserContext, dto: UpdatePreferencesDto) {
     // Ensure profile exists
     await this.getProfile(userCtx);
@@ -43,14 +62,26 @@ export class UsersService {
         travelPace: dto.travelPace ?? 'Balanced',
         companionTypes: dto.companionTypes ?? [],
         activityPreferences: dto.activityPreferences ?? [],
+        reducedMotion: dto.reducedMotion ?? false,
+        largerText: dto.largerText ?? false,
+        highContrast: dto.highContrast ?? false,
+        personalizedRecommendations: dto.personalizedRecommendations ?? true,
+        aiPersonalization: dto.aiPersonalization ?? true,
+        contextualSuggestions: dto.contextualSuggestions ?? true,
       },
       update: {
-        travelStyles: dto.travelStyles,
-        interests: dto.interests,
-        budgetLevel: dto.budgetLevel,
-        travelPace: dto.travelPace,
-        companionTypes: dto.companionTypes,
-        activityPreferences: dto.activityPreferences,
+        ...(dto.travelStyles !== undefined && { travelStyles: dto.travelStyles }),
+        ...(dto.interests !== undefined && { interests: dto.interests }),
+        ...(dto.budgetLevel !== undefined && { budgetLevel: dto.budgetLevel }),
+        ...(dto.travelPace !== undefined && { travelPace: dto.travelPace }),
+        ...(dto.companionTypes !== undefined && { companionTypes: dto.companionTypes }),
+        ...(dto.activityPreferences !== undefined && { activityPreferences: dto.activityPreferences }),
+        ...(dto.reducedMotion !== undefined && { reducedMotion: dto.reducedMotion }),
+        ...(dto.largerText !== undefined && { largerText: dto.largerText }),
+        ...(dto.highContrast !== undefined && { highContrast: dto.highContrast }),
+        ...(dto.personalizedRecommendations !== undefined && { personalizedRecommendations: dto.personalizedRecommendations }),
+        ...(dto.aiPersonalization !== undefined && { aiPersonalization: dto.aiPersonalization }),
+        ...(dto.contextualSuggestions !== undefined && { contextualSuggestions: dto.contextualSuggestions }),
       },
     });
 

@@ -12,6 +12,8 @@ model User {
   email               String           @unique
   fullName            String?
   avatarUrl           String?
+  language            String           @default("en")
+  currency            String           @default("USD")
   onboardingCompleted Boolean          @default(false)
   createdAt           DateTime         @default(now())
   updatedAt           DateTime         @updatedAt
@@ -21,17 +23,23 @@ model User {
 }
 
 model UserPreferences {
-  id                  String   @id @default(uuid())
-  userId              String   @unique
-  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  travelStyles        String[] @default([])
-  interests           String[] @default([])
-  budgetLevel         String   @default("Moderate")
-  travelPace          String   @default("Balanced")
-  companionTypes      String[] @default([])
-  activityPreferences String[] @default([])
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                          String   @id @default(uuid())
+  userId                      String   @unique
+  user                        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  travelStyles                String[] @default([])
+  interests                   String[] @default([])
+  budgetLevel                 String   @default("Moderate")
+  travelPace                  String   @default("Balanced")
+  companionTypes              String[] @default([])
+  activityPreferences         String[] @default([])
+  reducedMotion               Boolean  @default(false)
+  largerText                  Boolean  @default(false)
+  highContrast                Boolean  @default(false)
+  personalizedRecommendations Boolean  @default(true)
+  aiPersonalization           Boolean  @default(true)
+  contextualSuggestions       Boolean  @default(true)
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
 
   @@map("user_preferences")
 }
