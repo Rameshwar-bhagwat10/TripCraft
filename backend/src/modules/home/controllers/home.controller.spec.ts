@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { HomeController } from './home.controller';
-import { HomeService } from '../services/home.service';
-import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from "@nestjs/testing";
+import { HomeController } from "./home.controller";
+import { HomeService } from "../services/home.service";
+import { ConfigService } from "@nestjs/config";
 
-describe('HomeController', () => {
+describe("HomeController", () => {
   let controller: HomeController;
   let service: HomeService;
 
@@ -28,12 +28,12 @@ describe('HomeController', () => {
     service = module.get<HomeService>(HomeService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 
-  it('getHomeData should return aggregated payload', async () => {
-    const user = { id: 'uuid-1', email: 'test@example.com' };
+  it("getHomeData should return aggregated payload", async () => {
+    const user = { id: "uuid-1", email: "test@example.com" };
     const mockPayload = { user, recommendations: [], upcomingTrip: null };
     mockHomeService.getHomeData.mockResolvedValue(mockPayload);
 

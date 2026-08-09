@@ -10,6 +10,8 @@ import '../features/authentication/presentation/screens/register_screen.dart';
 import '../features/authentication/presentation/screens/reset_password_screen.dart';
 import '../features/authentication/presentation/screens/verify_email_screen.dart';
 import '../features/design_system/design_system.dart';
+import '../features/explore/presentation/screens/destination_details_screen.dart';
+import '../features/explore/presentation/screens/destination_search_screen.dart';
 import '../features/explore/presentation/screens/explore_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/onboarding/onboarding.dart';
@@ -164,7 +166,18 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // Sub-routes with hidden bottom nav
+      // Sub-routes (hides bottom nav bar)
+      GoRoute(
+        path: '/explore/search',
+        builder: (context, state) => const DestinationSearchScreen(),
+      ),
+      GoRoute(
+        path: '/explore/destination/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'dest-goa';
+          return DestinationDetailsScreen(destinationId: id);
+        },
+      ),
       GoRoute(
         path: RouteConstants.editProfile,
         builder: (context, state) => const EditProfileScreen(),

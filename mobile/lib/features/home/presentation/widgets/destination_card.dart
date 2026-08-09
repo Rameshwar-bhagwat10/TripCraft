@@ -3,17 +3,51 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../../app/app_colors.dart';
 import '../../../../app/app_dimensions.dart';
 import '../../../../app/app_typography.dart';
+import '../../../explore/domain/entities/destination.dart';
 import '../../domain/entities/home_data.dart';
 
-/// Reusable Recommendation & Destination Card for Horizontal Carousel.
+/// Reusable Recommendation & Destination Card for Horizontal Carousels & Grids.
 class DestinationCard extends StatelessWidget {
-  final RecommendedDestination destination;
+  final String title;
+  final String location;
+  final String imageUrl;
+  final bool isSaved;
   final VoidCallback? onTap;
   final VoidCallback? onSaveTap;
 
-  const DestinationCard({
+  DestinationCard({
     super.key,
-    required this.destination,
+    required RecommendedDestination destination,
+    this.onTap,
+    this.onSaveTap,
+  })  : title = destination.title,
+        location = destination.location,
+        imageUrl = destination.imageUrl,
+        isSaved = destination.isSaved;
+
+  factory DestinationCard.fromDestination({
+    Key? key,
+    required Destination destination,
+    VoidCallback? onTap,
+    VoidCallback? onSaveTap,
+  }) {
+    return DestinationCard._raw(
+      key: key,
+      title: destination.name,
+      location: '${destination.city}, ${destination.country}',
+      imageUrl: destination.heroImage,
+      isSaved: destination.isSaved,
+      onTap: onTap,
+      onSaveTap: onSaveTap,
+    );
+  }
+
+  const DestinationCard._raw({
+    super.key,
+    required this.title,
+    required this.location,
+    required this.imageUrl,
+    required this.isSaved,
     this.onTap,
     this.onSaveTap,
   });
@@ -44,7 +78,7 @@ class DestinationCard extends StatelessWidget {
               Stack(
                 children: [
                   Image.network(
-                    destination.imageUrl,
+                    imageUrl,
                     height: 120,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -78,10 +112,10 @@ class DestinationCard extends StatelessWidget {
                           ],
                         ),
                         child: Icon(
-                          destination.isSaved
+                          isSaved
                               ? PhosphorIconsFill.bookmark
                               : PhosphorIconsRegular.bookmark,
-                          color: destination.isSaved
+                          color: isSaved
                               ? AppColors.primary
                               : AppColors.textSecondary,
                           size: 16,
@@ -97,7 +131,7 @@ class DestinationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      destination.title,
+                      title,
                       style: AppTypography.titleSmall.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -115,7 +149,7 @@ class DestinationCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
-                            destination.location,
+                            location,
                             style: AppTypography.bodySmall.copyWith(
                               color: AppColors.textSecondary,
                             ),

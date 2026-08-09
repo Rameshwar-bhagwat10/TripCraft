@@ -3,8 +3,8 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+} from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class SupabaseAuthGuard implements CanActivate {
@@ -14,25 +14,29 @@ export class SupabaseAuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new UnauthorizedException('Missing or invalid Authorization header');
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new UnauthorizedException(
+        "Missing or invalid Authorization header",
+      );
     }
 
-    const token = authHeader.split(' ')[1];
-    const supabaseUrl = this.configService.get<string>('SUPABASE_URL');
-    const supabaseAnonKey = this.configService.get<string>('SUPABASE_ANON_KEY');
+    const token = authHeader.split(" ")[1];
+    const supabaseUrl = this.configService.get<string>("SUPABASE_URL");
+    const supabaseAnonKey = this.configService.get<string>("SUPABASE_ANON_KEY");
 
     try {
       // Validate token against Supabase Auth API
       const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          apikey: supabaseAnonKey || '',
+          apikey: supabaseAnonKey || "",
         },
       });
 
       if (!response.ok) {
-        throw new UnauthorizedException('Invalid or expired authentication token');
+        throw new UnauthorizedException(
+          "Invalid or expired authentication token",
+        );
       }
 
       const userData = await response.json();
@@ -48,7 +52,7 @@ export class SupabaseAuthGuard implements CanActivate {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      throw new UnauthorizedException('Authentication verification failed');
+      throw new UnauthorizedException("Authentication verification failed");
     }
   }
 }

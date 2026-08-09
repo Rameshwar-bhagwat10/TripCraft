@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../database/prisma/prisma.service';
-import { UserContext } from '../../auth/decorators/user.decorator';
-import { UpdatePreferencesDto } from '../dto/update_preferences.dto';
-import { UpdateProfileDto } from '../dto/update_profile.dto';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../../database/prisma/prisma.service";
+import { UserContext } from "../../auth/decorators/user.decorator";
+import { UpdatePreferencesDto } from "../dto/update_preferences.dto";
+import { UpdateProfileDto } from "../dto/update_profile.dto";
 
 @Injectable()
 export class UsersService {
@@ -58,8 +58,8 @@ export class UsersService {
         userId: userCtx.id,
         travelStyles: dto.travelStyles ?? [],
         interests: dto.interests ?? [],
-        budgetLevel: dto.budgetLevel ?? 'Moderate',
-        travelPace: dto.travelPace ?? 'Balanced',
+        budgetLevel: dto.budgetLevel ?? "Moderate",
+        travelPace: dto.travelPace ?? "Balanced",
         companionTypes: dto.companionTypes ?? [],
         activityPreferences: dto.activityPreferences ?? [],
         reducedMotion: dto.reducedMotion ?? false,
@@ -70,18 +70,34 @@ export class UsersService {
         contextualSuggestions: dto.contextualSuggestions ?? true,
       },
       update: {
-        ...(dto.travelStyles !== undefined && { travelStyles: dto.travelStyles }),
+        ...(dto.travelStyles !== undefined && {
+          travelStyles: dto.travelStyles,
+        }),
         ...(dto.interests !== undefined && { interests: dto.interests }),
         ...(dto.budgetLevel !== undefined && { budgetLevel: dto.budgetLevel }),
         ...(dto.travelPace !== undefined && { travelPace: dto.travelPace }),
-        ...(dto.companionTypes !== undefined && { companionTypes: dto.companionTypes }),
-        ...(dto.activityPreferences !== undefined && { activityPreferences: dto.activityPreferences }),
-        ...(dto.reducedMotion !== undefined && { reducedMotion: dto.reducedMotion }),
+        ...(dto.companionTypes !== undefined && {
+          companionTypes: dto.companionTypes,
+        }),
+        ...(dto.activityPreferences !== undefined && {
+          activityPreferences: dto.activityPreferences,
+        }),
+        ...(dto.reducedMotion !== undefined && {
+          reducedMotion: dto.reducedMotion,
+        }),
         ...(dto.largerText !== undefined && { largerText: dto.largerText }),
-        ...(dto.highContrast !== undefined && { highContrast: dto.highContrast }),
-        ...(dto.personalizedRecommendations !== undefined && { personalizedRecommendations: dto.personalizedRecommendations }),
-        ...(dto.aiPersonalization !== undefined && { aiPersonalization: dto.aiPersonalization }),
-        ...(dto.contextualSuggestions !== undefined && { contextualSuggestions: dto.contextualSuggestions }),
+        ...(dto.highContrast !== undefined && {
+          highContrast: dto.highContrast,
+        }),
+        ...(dto.personalizedRecommendations !== undefined && {
+          personalizedRecommendations: dto.personalizedRecommendations,
+        }),
+        ...(dto.aiPersonalization !== undefined && {
+          aiPersonalization: dto.aiPersonalization,
+        }),
+        ...(dto.contextualSuggestions !== undefined && {
+          contextualSuggestions: dto.contextualSuggestions,
+        }),
       },
     });
 

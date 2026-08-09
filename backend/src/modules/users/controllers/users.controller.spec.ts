@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from './users.controller';
-import { UsersService } from '../services/users.service';
-import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from "@nestjs/testing";
+import { UsersController } from "./users.controller";
+import { UsersService } from "../services/users.service";
+import { ConfigService } from "@nestjs/config";
 
-describe('UsersController', () => {
+describe("UsersController", () => {
   let controller: UsersController;
   let service: UsersService;
 
@@ -30,36 +30,49 @@ describe('UsersController', () => {
     service = module.get<UsersService>(UsersService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 
-  it('getProfile should call service.getProfile', async () => {
-    const user = { id: 'uuid-1', email: 'test@example.com' };
-    mockUsersService.getProfile.mockResolvedValue({ id: 'uuid-1', email: 'test@example.com' });
+  it("getProfile should call service.getProfile", async () => {
+    const user = { id: "uuid-1", email: "test@example.com" };
+    mockUsersService.getProfile.mockResolvedValue({
+      id: "uuid-1",
+      email: "test@example.com",
+    });
 
     const result = await controller.getProfile(user);
-    expect(result).toEqual({ id: 'uuid-1', email: 'test@example.com' });
+    expect(result).toEqual({ id: "uuid-1", email: "test@example.com" });
     expect(service.getProfile).toHaveBeenCalledWith(user);
   });
 
-  it('updateProfile should call service.updateProfile', async () => {
-    const user = { id: 'uuid-1', email: 'test@example.com' };
-    const dto = { fullName: 'Jane Doe', language: 'en', currency: 'USD' };
-    mockUsersService.updateProfile.mockResolvedValue({ id: 'uuid-1', fullName: 'Jane Doe' });
+  it("updateProfile should call service.updateProfile", async () => {
+    const user = { id: "uuid-1", email: "test@example.com" };
+    const dto = { fullName: "Jane Doe", language: "en", currency: "USD" };
+    mockUsersService.updateProfile.mockResolvedValue({
+      id: "uuid-1",
+      fullName: "Jane Doe",
+    });
 
     const result = await controller.updateProfile(user, dto);
-    expect(result).toEqual({ id: 'uuid-1', fullName: 'Jane Doe' });
+    expect(result).toEqual({ id: "uuid-1", fullName: "Jane Doe" });
     expect(service.updateProfile).toHaveBeenCalledWith(user, dto);
   });
 
-  it('updatePreferences should call service.updatePreferences', async () => {
-    const user = { id: 'uuid-1', email: 'test@example.com' };
-    const dto = { travelStyles: ['Adventure'], budgetLevel: 'Luxury', reducedMotion: true };
-    mockUsersService.updatePreferences.mockResolvedValue({ id: 'uuid-1', onboardingCompleted: true });
+  it("updatePreferences should call service.updatePreferences", async () => {
+    const user = { id: "uuid-1", email: "test@example.com" };
+    const dto = {
+      travelStyles: ["Adventure"],
+      budgetLevel: "Luxury",
+      reducedMotion: true,
+    };
+    mockUsersService.updatePreferences.mockResolvedValue({
+      id: "uuid-1",
+      onboardingCompleted: true,
+    });
 
     const result = await controller.updatePreferences(user, dto);
-    expect(result).toEqual({ id: 'uuid-1', onboardingCompleted: true });
+    expect(result).toEqual({ id: "uuid-1", onboardingCompleted: true });
     expect(service.updatePreferences).toHaveBeenCalledWith(user, dto);
   });
 });

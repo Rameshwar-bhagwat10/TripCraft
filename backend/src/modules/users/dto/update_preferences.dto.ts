@@ -1,36 +1,36 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
+import { ApiPropertyOptional } from "@nestjs/swagger";
+import { IsArray, IsBoolean, IsOptional, IsString } from "class-validator";
 
 export class UpdatePreferencesDto {
-  @ApiPropertyOptional({ example: ['Adventure', 'Culture'] })
+  @ApiPropertyOptional({ example: ["Adventure", "Culture"] })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
   travelStyles?: string[];
 
-  @ApiPropertyOptional({ example: ['Nature', 'Food'] })
+  @ApiPropertyOptional({ example: ["Nature", "Food"] })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
   interests?: string[];
 
-  @ApiPropertyOptional({ example: 'Moderate' })
+  @ApiPropertyOptional({ example: "Moderate" })
   @IsString()
   @IsOptional()
   budgetLevel?: string;
 
-  @ApiPropertyOptional({ example: 'Balanced' })
+  @ApiPropertyOptional({ example: "Balanced" })
   @IsString()
   @IsOptional()
   travelPace?: string;
 
-  @ApiPropertyOptional({ example: ['Friends', 'Family'] })
+  @ApiPropertyOptional({ example: ["Friends", "Family"] })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
   companionTypes?: string[];
 
-  @ApiPropertyOptional({ example: ['Outdoor', 'Dining'] })
+  @ApiPropertyOptional({ example: ["Outdoor", "Dining"] })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()

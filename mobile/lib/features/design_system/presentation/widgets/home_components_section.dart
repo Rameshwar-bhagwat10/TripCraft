@@ -55,8 +55,8 @@ class HomeComponentsSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppDimensions.space16),
-          const DestinationCard(
-            destination: RecommendedDestination(
+          DestinationCard(
+            destination: const RecommendedDestination(
               id: 'showcase-1',
               title: 'Goa Coastline',
               location: 'Goa, India',

@@ -8,16 +8,17 @@ generator client {
 }
 
 model User {
-  id                  String           @id @default(uuid())
-  email               String           @unique
+  id                  String             @id @default(uuid())
+  email               String             @unique
   fullName            String?
   avatarUrl           String?
-  language            String           @default("en")
-  currency            String           @default("USD")
-  onboardingCompleted Boolean          @default(false)
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime         @updatedAt
+  language            String             @default("en")
+  currency            String             @default("USD")
+  onboardingCompleted Boolean            @default(false)
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
   preferences         UserPreferences?
+  savedDestinations   SavedDestination[]
 
   @@map("profiles")
 }
@@ -42,4 +43,45 @@ model UserPreferences {
   updatedAt                   DateTime @updatedAt
 
   @@map("user_preferences")
+}
+
+model Destination {
+  id              String             @id @default(uuid())
+  name            String
+  slug            String             @unique
+  city            String
+  country         String
+  region          String
+  description     String
+  heroImage       String
+  images          String[]           @default([])
+  categories      String[]           @default([])
+  travelStyles    String[]           @default([])
+  activities      String[]           @default([])
+  highlights      String[]           @default([])
+  bestTimeToVisit String?
+  budgetRange     String             @default("Moderate")
+  latitude        Float?
+  longitude       Float?
+  rating          Float              @default(4.8)
+  reviewCount     Int                @default(120)
+  isFeatured      Boolean            @default(false)
+  isTrending      Boolean            @default(false)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  savedBy         SavedDestination[]
+
+  @@map("destinations")
+}
+
+model SavedDestination {
+  id            String      @id @default(uuid())
+  userId        String
+  destinationId String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+
+  @@unique([userId, destinationId])
+  @@map("saved_destinations")
 }
