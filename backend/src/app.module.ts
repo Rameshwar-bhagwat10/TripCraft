@@ -16,6 +16,7 @@ import { PlacesModule } from './modules/places/places.module';
 import { RouteIntelligenceModule } from './modules/route-intelligence/route-intelligence.module';
 import { WeatherModule } from './modules/weather/weather.module';
 import { SmartTripIntelligenceModule } from './modules/smart-trip-intelligence/smart-trip-intelligence.module';
+import { AiModule } from './modules/ai/ai.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { SmartTripIntelligenceModule } from './modules/smart-trip-intelligence/s
     RouteIntelligenceModule,
     WeatherModule,
     SmartTripIntelligenceModule,
+    AiModule,
   ],
 })
 export class AppModule {}

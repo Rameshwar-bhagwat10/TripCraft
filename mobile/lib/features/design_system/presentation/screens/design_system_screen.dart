@@ -3,27 +3,8 @@ import '../../../../app/app_colors.dart';
 import '../../../../app/app_dimensions.dart';
 import '../../../../app/app_typography.dart';
 import '../../../../shared/layouts/app_scaffold.dart';
-import '../widgets/badge_section.dart';
-import '../widgets/button_section.dart';
-import '../widgets/card_section.dart';
-import '../widgets/chip_section.dart';
-import '../widgets/color_section.dart';
-import '../widgets/dialog_section.dart';
-import '../widgets/explore_components_section.dart';
-import '../widgets/home_components_section.dart';
-import '../widgets/icon_section.dart';
-import '../widgets/input_section.dart';
-import '../widgets/itinerary_components_section.dart';
-import '../widgets/map_components_section.dart';
-import '../widgets/motion_section.dart';
-import '../widgets/profile_components_section.dart';
-import '../widgets/spacing_section.dart';
-import '../widgets/state_section.dart';
-import '../widgets/trip_components_section.dart';
-import '../widgets/typography_section.dart';
-import '../widgets/weather_components_section.dart';
+import '../widgets/ai_copilot_components_section.dart';
 
-/// Development-only Design System Showcase Screen for TripCraft.
 class DesignSystemScreen extends StatelessWidget {
   const DesignSystemScreen({super.key});
 
@@ -31,42 +12,28 @@ class DesignSystemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('TripCraft Design System'),
-            Text(
-              'Development Showcase & Component Reference',
-              style: AppTypography.bodySmall.copyWith(color: AppColors.textSecondary),
-            ),
-          ],
-        ),
+        title: const Text('Tripcraft Design System'),
+        centerTitle: true,
+        backgroundColor: AppColors.background,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppDimensions.pageMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            ColorSection(),
-            TypographySection(),
-            ButtonSection(),
-            InputSection(),
-            CardSection(),
-            ChipSection(),
-            WeatherComponentsSection(),
-            MapComponentsSection(),
-            ItineraryComponentsSection(),
-            TripComponentsSection(),
-            ExploreComponentsSection(),
-            HomeComponentsSection(),
-            ProfileComponentsSection(),
-            BadgeSection(),
-            StateSection(),
-            DialogSection(),
-            SpacingSection(),
-            IconSection(),
-            MotionSection(),
-            SizedBox(height: AppDimensions.space48),
+          children: [
+            Text(
+              'Tripcraft UI Kit & Tokens',
+              style: AppTypography.displaySmall,
+            ),
+            const SizedBox(height: AppDimensions.space8),
+            Text(
+              'Light theme, minimal visual design, soft surfaces, generous whitespace, subtle shadows.',
+              style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppDimensions.space24),
+            const AiCopilotComponentsSection(),
+            const SizedBox(height: AppDimensions.space40),
           ],
         ),
       ),

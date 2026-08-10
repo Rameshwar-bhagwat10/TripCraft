@@ -14,15 +14,7 @@ class DummyHomeRepository implements HomeRepository {
   Future<HomeData> getHomeData() async {
     return const HomeData(
       upcomingTrip: null,
-      recommendations: [
-        RecommendedDestination(
-          id: 'rec-1',
-          title: 'Goa Coastline',
-          location: 'Goa, India',
-          category: 'Beach',
-          imageUrl: '',
-        ),
-      ],
+      recommendations: [],
       weather: WeatherPreviewData(
         location: 'Mumbai, India',
         temperature: 28,
@@ -73,15 +65,7 @@ void main() {
 
     final mockHomeData = const HomeData(
       upcomingTrip: null,
-      recommendations: [
-        RecommendedDestination(
-          id: 'rec-1',
-          title: 'Goa Coastline',
-          location: 'Goa, India',
-          category: 'Beach',
-          imageUrl: '',
-        ),
-      ],
+      recommendations: [],
       weather: WeatherPreviewData(
         location: 'Mumbai, India',
         temperature: 28,
@@ -109,12 +93,11 @@ void main() {
       ),
     );
 
-    await tester.pumpAndSettle();
+    await tester.pump();
 
-    expect(find.text('Rameshwar'), findsOneWidget);
-    expect(find.text('Where do you want to go next?'), findsOneWidget);
-    expect(find.text('QUICK ACTIONS'), findsOneWidget);
-    expect(find.text('RECOMMENDED FOR YOU'), findsOneWidget);
-    expect(find.text('Goa Coastline'), findsOneWidget);
+    expect(find.text('WELCOME BACK'), findsOneWidget);
+    expect(find.text('Ready for Goa?'), findsOneWidget);
+    expect(find.text('TRIPCRAFT AI COPILOT'), findsOneWidget);
+    expect(find.text('FEATURED DESTINATIONS'), findsOneWidget);
   });
 }

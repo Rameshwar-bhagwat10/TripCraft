@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../core/constants/route_constants.dart';
+import '../features/ai_copilot/presentation/screens/ai_copilot_screen.dart';
+import '../features/ai_copilot/presentation/screens/ai_memories_screen.dart';
 import '../features/authentication/domain/entities/auth_state.dart';
 import '../features/authentication/presentation/providers/auth_provider.dart';
 import '../features/authentication/presentation/screens/forgot_password_screen.dart';
@@ -179,6 +181,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
 
       // Sub-routes (hides bottom nav bar)
+      GoRoute(
+        path: '/ai-copilot',
+        builder: (context, state) {
+          final tripId = state.uri.queryParameters['tripId'];
+          return AiCopilotScreen(tripId: tripId);
+        },
+      ),
+      GoRoute(
+        path: '/profile/ai-memories',
+        builder: (context, state) => const AiMemoriesScreen(),
+      ),
       GoRoute(
         path: '/explore/search',
         builder: (context, state) => const DestinationSearchScreen(),
