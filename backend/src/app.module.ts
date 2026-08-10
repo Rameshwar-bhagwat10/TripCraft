@@ -1,35 +1,45 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import appConfig from "./config/app.config";
-import databaseConfig from "./config/database.config";
-import authConfig from "./config/auth.config";
-import { DatabaseModule } from "./database/database.module";
-import { HealthModule } from "./modules/health/health.module";
-import { UsersModule } from "./modules/users/users.module";
-import { HomeModule } from "./modules/home/home.module";
-import { DestinationsModule } from "./modules/destinations/destinations.module";
-import { TripsModule } from "./modules/trips/trips.module";
-import { ItineraryModule } from "./modules/itinerary/itinerary.module";
-import { MapsModule } from "./modules/maps/maps.module";
-import { PlacesModule } from "./modules/places/places.module";
-import { RouteIntelligenceModule } from "./modules/route-intelligence/route-intelligence.module";
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
+// Core Services & Repositories
+import { DatabaseModule } from './core/database/database.module';
+import { StorageModule } from './core/storage/storage.module';
+
+// Feature Modules
+import { AuthModule } from './modules/auth/auth.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { DestinationsModule } from './modules/destinations/destinations.module';
+import { TripsModule } from './modules/trips/trips.module';
+import { ItineraryModule } from './modules/itinerary/itinerary.module';
+import { MapsModule } from './modules/maps/maps.module';
+import { PlacesModule } from './modules/places/places.module';
+import { RouteIntelligenceModule } from './modules/route-intelligence/route-intelligence.module';
+import { WeatherModule } from './modules/weather/weather.module';
+import { SmartTripIntelligenceModule } from './modules/smart-trip-intelligence/smart-trip-intelligence.module';
 
 @Module({
   imports: [
+    // Configuration
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, authConfig],
+      envFilePath: ['.env.local', '.env'],
     }),
+
+    // Core Foundation
     DatabaseModule,
-    HealthModule,
-    UsersModule,
-    HomeModule,
+    StorageModule,
+
+    // Application Features
+    AuthModule,
+    ProfileModule,
     DestinationsModule,
     TripsModule,
     ItineraryModule,
     MapsModule,
     PlacesModule,
     RouteIntelligenceModule,
+    WeatherModule,
+    SmartTripIntelligenceModule,
   ],
 })
 export class AppModule {}

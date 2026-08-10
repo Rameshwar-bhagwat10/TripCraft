@@ -21,6 +21,7 @@ import '../widgets/spacing_section.dart';
 import '../widgets/state_section.dart';
 import '../widgets/trip_components_section.dart';
 import '../widgets/typography_section.dart';
+import '../widgets/weather_components_section.dart';
 
 /// Development-only Design System Showcase Screen for TripCraft.
 class DesignSystemScreen extends StatelessWidget {
@@ -52,6 +53,7 @@ class DesignSystemScreen extends StatelessWidget {
             InputSection(),
             CardSection(),
             ChipSection(),
+            WeatherComponentsSection(),
             MapComponentsSection(),
             ItineraryComponentsSection(),
             TripComponentsSection(),

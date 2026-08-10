@@ -214,7 +214,7 @@ class TripWorkspaceScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: AppDimensions.space24),
 
-                          // Primary Planning Action Hero Banner (Phase 8 Gateway)
+                          // Primary Planning Action Hero Banner
                           Container(
                             padding: const EdgeInsets.all(AppDimensions.space20),
                             decoration: BoxDecoration(
@@ -247,7 +247,7 @@ class TripWorkspaceScreen extends ConsumerWidget {
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
-                                      'ITINERARY BUILDER',
+                                      'SMART TRIP INTELLIGENCE',
                                       style: AppTypography.labelSmall.copyWith(
                                         color: Colors.white70,
                                         letterSpacing: 1.0,
@@ -257,7 +257,7 @@ class TripWorkspaceScreen extends ConsumerWidget {
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  'Build your day-by-day plan',
+                                  'Weather & Itinerary Health',
                                   style: AppTypography.titleLarge.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
@@ -265,18 +265,18 @@ class TripWorkspaceScreen extends ConsumerWidget {
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
-                                  'Organize activities, schedules, and places to visit for your trip.',
+                                  'Real-time destination weather, rain risk analysis & smart recommendations.',
                                   style: AppTypography.bodySmall.copyWith(
                                     color: Colors.white.withValues(alpha: 0.8),
                                   ),
                                 ),
                                 const SizedBox(height: 16),
                                 PrimaryButton(
-                                  label: 'Start Planning Itinerary',
-                                  icon: const Icon(PhosphorIconsBold.calendar, size: 18),
+                                  label: 'View Trip Intelligence',
+                                  icon: const Icon(PhosphorIconsBold.sparkle, size: 18),
                                   onPressed: () {
                                     HapticFeedback.mediumImpact();
-                                    context.push('/trips/${trip.id}/itinerary');
+                                    context.push('/trips/${trip.id}/intelligence');
                                   },
                                 ),
                               ],
@@ -314,12 +314,14 @@ class TripWorkspaceScreen extends ConsumerWidget {
                             },
                           ),
                           const SizedBox(height: AppDimensions.space10),
-                          const TripModuleRow(
+                          TripModuleRow(
                             icon: PhosphorIconsRegular.cloudSun,
                             title: 'Destination Weather',
-                            subtitle: 'Live weather & forecast',
-                            badgeText: 'Coming Soon',
-                            isAvailable: false,
+                            subtitle: 'Live weather & 5-day forecast',
+                            badgeText: 'Active',
+                            onTap: () {
+                              context.push('/trips/${trip.id}/weather');
+                            },
                           ),
                           const SizedBox(height: AppDimensions.space24),
 
@@ -365,12 +367,14 @@ class TripWorkspaceScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: AppDimensions.space12),
 
-                          const TripModuleRow(
+                          TripModuleRow(
                             icon: PhosphorIconsRegular.sparkle,
-                            title: 'AI Travel Copilot',
-                            subtitle: 'AI recommendations & schedule optimizer',
-                            badgeText: 'Coming Soon',
-                            isAvailable: false,
+                            title: 'AI Travel Copilot & Health',
+                            subtitle: 'Weather risk alerts & schedule optimizer',
+                            badgeText: 'Active',
+                            onTap: () {
+                              context.push('/trips/${trip.id}/intelligence');
+                            },
                           ),
                           const SizedBox(height: AppDimensions.space10),
                           const TripModuleRow(

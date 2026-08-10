@@ -27,11 +27,13 @@ import '../features/profile/presentation/screens/travel_preferences_screen.dart'
 import '../features/route_intelligence/presentation/screens/route_details_screen.dart';
 import '../features/route_intelligence/presentation/screens/route_intelligence_screen.dart';
 import '../features/saved/presentation/screens/saved_screen.dart';
+import '../features/smart_trip_intelligence/presentation/screens/trip_intelligence_screen.dart';
 import '../features/splash/presentation/screens/splash_screen.dart';
 import '../features/trips/presentation/screens/create_trip_screen.dart';
 import '../features/trips/presentation/screens/edit_trip_screen.dart';
 import '../features/trips/presentation/screens/trip_workspace_screen.dart';
 import '../features/trips/presentation/screens/trips_screen.dart';
+import '../features/weather/presentation/screens/trip_weather_screen.dart';
 import '../shared/layouts/app_shell.dart';
 
 class AppRoutes {
@@ -240,6 +242,20 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? 'trip-goa-escape';
           return TripMapScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/weather',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return TripWeatherScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/intelligence',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return TripIntelligenceScreen(tripId: id);
         },
       ),
       GoRoute(
