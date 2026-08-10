@@ -7,6 +7,9 @@ import { WeatherService } from '../../weather/services/weather.service';
 import { SmartTripIntelligenceService } from '../../smart-trip-intelligence/services/smart-trip-intelligence.service';
 import { RouteIntelligenceService } from '../../route-intelligence/services/route-intelligence.service';
 import { PlacesService } from '../../places/services/places.service';
+import { BookingsService } from '../../operations/services/bookings.service';
+import { DocumentsService } from '../../operations/services/documents.service';
+import { OperationsService } from '../../operations/services/operations.service';
 
 describe('AiController', () => {
   let controller: AiController;
@@ -22,6 +25,9 @@ describe('AiController', () => {
         SmartTripIntelligenceService,
         RouteIntelligenceService,
         PlacesService,
+        BookingsService,
+        DocumentsService,
+        OperationsService,
       ],
     }).compile();
 

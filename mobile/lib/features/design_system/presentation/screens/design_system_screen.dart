@@ -4,6 +4,7 @@ import '../../../../app/app_dimensions.dart';
 import '../../../../app/app_typography.dart';
 import '../../../../shared/layouts/app_scaffold.dart';
 import '../widgets/ai_copilot_components_section.dart';
+import '../widgets/trip_operations_components_section.dart';
 
 class DesignSystemScreen extends StatelessWidget {
   const DesignSystemScreen({super.key});
@@ -33,6 +34,8 @@ class DesignSystemScreen extends StatelessWidget {
             ),
             const SizedBox(height: AppDimensions.space24),
             const AiCopilotComponentsSection(),
+            const SizedBox(height: AppDimensions.space32),
+            const TripOperationsComponentsSection(),
             const SizedBox(height: AppDimensions.space40),
           ],
         ),

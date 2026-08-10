@@ -341,12 +341,14 @@ class TripWorkspaceScreen extends ConsumerWidget {
                             badgeText: 'Active',
                           ),
                           const SizedBox(height: AppDimensions.space10),
-                          const TripModuleRow(
+                          TripModuleRow(
                             icon: PhosphorIconsRegular.ticket,
-                            title: 'Bookings & Reservations',
-                            subtitle: 'Hotels, flights & tickets',
-                            badgeText: 'Coming Soon',
-                            isAvailable: false,
+                            title: 'Bookings & Travel Documents',
+                            subtitle: 'Flights, stays, vouchers & private vault',
+                            badgeText: 'Active',
+                            onTap: () {
+                              context.push('/trips/${trip.id}/operations');
+                            },
                           ),
                           const SizedBox(height: AppDimensions.space10),
                           const TripModuleRow(

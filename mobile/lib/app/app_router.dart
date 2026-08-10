@@ -31,6 +31,11 @@ import '../features/route_intelligence/presentation/screens/route_intelligence_s
 import '../features/saved/presentation/screens/saved_screen.dart';
 import '../features/smart_trip_intelligence/presentation/screens/trip_intelligence_screen.dart';
 import '../features/splash/presentation/screens/splash_screen.dart';
+import '../features/trip_operations/presentation/screens/add_booking_screen.dart';
+import '../features/trip_operations/presentation/screens/booking_detail_screen.dart';
+import '../features/trip_operations/presentation/screens/bookings_list_screen.dart';
+import '../features/trip_operations/presentation/screens/document_vault_screen.dart';
+import '../features/trip_operations/presentation/screens/trip_operations_screen.dart';
 import '../features/trips/presentation/screens/create_trip_screen.dart';
 import '../features/trips/presentation/screens/edit_trip_screen.dart';
 import '../features/trips/presentation/screens/trip_workspace_screen.dart';
@@ -233,6 +238,42 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? 'trip-goa-escape';
           return EditTripScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/operations',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return TripOperationsScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/bookings',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return BookingsListScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/bookings/create',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return AddBookingScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/bookings/:bookingId',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final bookingId = state.pathParameters['bookingId'] ?? 'book-flight-1';
+          return BookingDetailScreen(tripId: id, bookingId: bookingId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/documents',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return DocumentVaultScreen(tripId: id);
         },
       ),
       GoRoute(
