@@ -18,6 +18,7 @@ import { WeatherModule } from './modules/weather/weather.module';
 import { SmartTripIntelligenceModule } from './modules/smart-trip-intelligence/smart-trip-intelligence.module';
 import { OperationsModule } from './modules/operations/operations.module';
 import { ExpensesModule } from './modules/expenses/expenses.module';
+import { MemoriesModule } from './modules/memories/memories.module';
 import { AiModule } from './modules/ai/ai.module';
 
 @Module({
@@ -45,6 +46,7 @@ import { AiModule } from './modules/ai/ai.module';
     SmartTripIntelligenceModule,
     OperationsModule,
     ExpensesModule,
+    MemoriesModule,
     AiModule,
   ],
 })

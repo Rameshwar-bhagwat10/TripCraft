@@ -381,12 +381,14 @@ class TripWorkspaceScreen extends ConsumerWidget {
                             },
                           ),
                           const SizedBox(height: AppDimensions.space10),
-                          const TripModuleRow(
+                          TripModuleRow(
                             icon: PhosphorIconsRegular.image,
                             title: 'Memories & Photos',
-                            subtitle: 'Trip photo gallery & journal',
-                            badgeText: 'Coming Soon',
-                            isAvailable: false,
+                            subtitle: 'Trip photo gallery, albums & story timeline',
+                            badgeText: 'Active',
+                            onTap: () {
+                              context.push('/trips/${trip.id}/memories');
+                            },
                           ),
                           const SizedBox(height: AppDimensions.space32),
                         ],

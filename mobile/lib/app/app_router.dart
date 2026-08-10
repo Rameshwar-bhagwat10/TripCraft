@@ -25,6 +25,12 @@ import '../features/home/presentation/screens/home_screen.dart';
 import '../features/itinerary/presentation/screens/itinerary_item_details_screen.dart';
 import '../features/itinerary/presentation/screens/itinerary_screen.dart';
 import '../features/maps/presentation/screens/trip_map_screen.dart';
+import '../features/memories/presentation/screens/album_detail_screen.dart';
+import '../features/memories/presentation/screens/memories_overview_screen.dart';
+import '../features/memories/presentation/screens/memory_map_screen.dart';
+import '../features/memories/presentation/screens/memory_timeline_screen.dart';
+import '../features/memories/presentation/screens/photo_detail_screen.dart';
+import '../features/memories/presentation/screens/photo_viewer_screen.dart';
 import '../features/onboarding/onboarding.dart';
 import '../features/places/presentation/screens/place_details_screen.dart';
 import '../features/places/presentation/screens/places_screen.dart';
@@ -323,6 +329,51 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? 'trip-goa-escape';
           return SharedExpensesScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/memories',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return MemoriesOverviewScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/photos/:photoId',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final photoId = state.pathParameters['photoId'] ?? 'photo-baga-sunset-1';
+          return PhotoViewerScreen(tripId: id, photoId: photoId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/photos/:photoId/details',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final photoId = state.pathParameters['photoId'] ?? 'photo-baga-sunset-1';
+          return PhotoDetailScreen(tripId: id, photoId: photoId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/albums/:albumId',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final albumId = state.pathParameters['albumId'] ?? 'album-sunsets-1';
+          return AlbumDetailScreen(tripId: id, albumId: albumId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/memories/timeline',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return MemoryTimelineScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/memories/map',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return MemoryMapScreen(tripId: id);
         },
       ),
       GoRoute(

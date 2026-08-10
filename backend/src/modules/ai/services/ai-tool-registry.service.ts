@@ -10,6 +10,10 @@ import { BudgetsService } from '../../expenses/services/budgets.service';
 import { ExpensesService } from '../../expenses/services/expenses.service';
 import { SettlementsService } from '../../expenses/services/settlements.service';
 import { FinanceAnalyticsService } from '../../expenses/services/finance-analytics.service';
+import { PhotosService } from '../../memories/services/photos.service';
+import { AlbumsService } from '../../memories/services/albums.service';
+import { MemoriesTimelineService } from '../../memories/services/memories-timeline.service';
+import { MemoriesMapService } from '../../memories/services/memories-map.service';
 
 export interface AiToolDefinition {
   name: string;
@@ -35,6 +39,10 @@ export class AiToolRegistryService {
     private readonly expensesService: ExpensesService,
     private readonly settlementsService: SettlementsService,
     private readonly analyticsService: FinanceAnalyticsService,
+    private readonly photosService: PhotosService,
+    private readonly albumsService: AlbumsService,
+    private readonly timelineService: MemoriesTimelineService,
+    private readonly mapService: MemoriesMapService,
   ) {}
 
   getTools(): AiToolDefinition[] {
@@ -51,13 +59,15 @@ export class AiToolRegistryService {
       { name: 'get_trip_operations', description: 'Get operational readiness overview and attention items', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'get_trip_budget', description: 'Get total trip budget, currency, category limits, and spent status', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'get_expenses', description: 'Get itemized list of recorded trip expenses', type: 'read', riskLevel: 'read', requiresConfirmation: false },
-      { name: 'get_category_spending', description: 'Get category spending breakdown and percentages', type: 'read', riskLevel: 'read', requiresConfirmation: false },
-      { name: 'get_traveler_balances', description: 'Get traveler net balances and who owes whom', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_trip_photos', description: 'Get uploaded trip photo memories and captions', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_trip_albums', description: 'Get photo albums created for trip', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_memory_timeline', description: 'Get chronological trip photo story timeline', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'add_activity', description: 'Add a place or activity to an itinerary day', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
       { name: 'move_activity', description: 'Change activity start time or day', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
       { name: 'remove_activity', description: 'Delete an activity from an itinerary day', type: 'write', riskLevel: 'high', requiresConfirmation: true },
       { name: 'create_booking_record', description: 'Create a flight, hotel, or activity booking record', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
       { name: 'create_expense', description: 'Record a new trip expense', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
+      { name: 'create_album', description: 'Create a new photo album collection', type: 'write', riskLevel: 'low', requiresConfirmation: true },
     ];
   }
 
@@ -84,11 +94,12 @@ export class AiToolRegistryService {
         return this.budgetsService.getBudgetByTrip(tripId);
       case 'get_expenses':
         return this.expensesService.getExpensesByTrip(tripId);
-      case 'get_category_spending':
-      case 'get_spending_summary':
-        return this.analyticsService.getFinanceAnalytics(tripId);
-      case 'get_traveler_balances':
-        return this.settlementsService.getTravelerBalances(tripId);
+      case 'get_trip_photos':
+        return this.photosService.getPhotosByTrip(tripId);
+      case 'get_trip_albums':
+        return this.albumsService.getAlbumsByTrip(tripId);
+      case 'get_memory_timeline':
+        return this.timelineService.getTimelineByTrip(tripId);
       default:
         return { message: `Executed tool ${name}` };
     }

@@ -15,6 +15,10 @@ import { ExpensesService } from '../../expenses/services/expenses.service';
 import { SettlementsService } from '../../expenses/services/settlements.service';
 import { CurrencyService } from '../../expenses/services/currency.service';
 import { FinanceAnalyticsService } from '../../expenses/services/finance-analytics.service';
+import { PhotosService } from '../../memories/services/photos.service';
+import { AlbumsService } from '../../memories/services/albums.service';
+import { MemoriesTimelineService } from '../../memories/services/memories-timeline.service';
+import { MemoriesMapService } from '../../memories/services/memories-map.service';
 
 describe('AiController', () => {
   let controller: AiController;
@@ -38,6 +42,10 @@ describe('AiController', () => {
         SettlementsService,
         CurrencyService,
         FinanceAnalyticsService,
+        PhotosService,
+        AlbumsService,
+        MemoriesTimelineService,
+        MemoriesMapService,
       ],
     }).compile();
 
