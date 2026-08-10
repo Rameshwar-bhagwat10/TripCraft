@@ -6,6 +6,10 @@ import { PlacesService } from '../../places/services/places.service';
 import { BookingsService } from '../../operations/services/bookings.service';
 import { DocumentsService } from '../../operations/services/documents.service';
 import { OperationsService } from '../../operations/services/operations.service';
+import { BudgetsService } from '../../expenses/services/budgets.service';
+import { ExpensesService } from '../../expenses/services/expenses.service';
+import { SettlementsService } from '../../expenses/services/settlements.service';
+import { FinanceAnalyticsService } from '../../expenses/services/finance-analytics.service';
 
 export interface AiToolDefinition {
   name: string;
@@ -27,6 +31,10 @@ export class AiToolRegistryService {
     private readonly bookingsService: BookingsService,
     private readonly documentsService: DocumentsService,
     private readonly operationsService: OperationsService,
+    private readonly budgetsService: BudgetsService,
+    private readonly expensesService: ExpensesService,
+    private readonly settlementsService: SettlementsService,
+    private readonly analyticsService: FinanceAnalyticsService,
   ) {}
 
   getTools(): AiToolDefinition[] {
@@ -38,13 +46,18 @@ export class AiToolRegistryService {
       { name: 'get_weather', description: 'Get current weather and 5-day forecast', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'get_route_intelligence', description: 'Analyze multi-stop route distances and travel burden', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'get_trip_readiness', description: 'Get overall trip health and weather risk insights', type: 'read', riskLevel: 'read', requiresConfirmation: false },
-      { name: 'get_bookings', description: 'Get confirmed and pending travel bookings (flights, stays, trains)', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_bookings', description: 'Get confirmed and pending travel bookings', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'get_documents', description: 'Get uploaded travel tickets, vouchers and document metadata', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'get_trip_operations', description: 'Get operational readiness overview and attention items', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_trip_budget', description: 'Get total trip budget, currency, category limits, and spent status', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_expenses', description: 'Get itemized list of recorded trip expenses', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_category_spending', description: 'Get category spending breakdown and percentages', type: 'read', riskLevel: 'read', requiresConfirmation: false },
+      { name: 'get_traveler_balances', description: 'Get traveler net balances and who owes whom', type: 'read', riskLevel: 'read', requiresConfirmation: false },
       { name: 'add_activity', description: 'Add a place or activity to an itinerary day', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
       { name: 'move_activity', description: 'Change activity start time or day', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
       { name: 'remove_activity', description: 'Delete an activity from an itinerary day', type: 'write', riskLevel: 'high', requiresConfirmation: true },
       { name: 'create_booking_record', description: 'Create a flight, hotel, or activity booking record', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
+      { name: 'create_expense', description: 'Record a new trip expense', type: 'write', riskLevel: 'medium', requiresConfirmation: true },
     ];
   }
 
@@ -67,6 +80,15 @@ export class AiToolRegistryService {
         return this.documentsService.getDocumentsByTrip(tripId);
       case 'get_trip_operations':
         return this.operationsService.getOperationsSummary(tripId);
+      case 'get_trip_budget':
+        return this.budgetsService.getBudgetByTrip(tripId);
+      case 'get_expenses':
+        return this.expensesService.getExpensesByTrip(tripId);
+      case 'get_category_spending':
+      case 'get_spending_summary':
+        return this.analyticsService.getFinanceAnalytics(tripId);
+      case 'get_traveler_balances':
+        return this.settlementsService.getTravelerBalances(tripId);
       default:
         return { message: `Executed tool ${name}` };
     }

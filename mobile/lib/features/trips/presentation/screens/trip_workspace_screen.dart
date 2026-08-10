@@ -351,12 +351,14 @@ class TripWorkspaceScreen extends ConsumerWidget {
                             },
                           ),
                           const SizedBox(height: AppDimensions.space10),
-                          const TripModuleRow(
+                          TripModuleRow(
                             icon: PhosphorIconsRegular.wallet,
                             title: 'Expenses & Budget',
-                            subtitle: 'Track spending & split costs',
-                            badgeText: 'Coming Soon',
-                            isAvailable: false,
+                            subtitle: 'Track spending, split costs & settlements',
+                            badgeText: 'Active',
+                            onTap: () {
+                              context.push('/trips/${trip.id}/finance');
+                            },
                           ),
                           const SizedBox(height: AppDimensions.space24),
 

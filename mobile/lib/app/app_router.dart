@@ -12,6 +12,12 @@ import '../features/authentication/presentation/screens/register_screen.dart';
 import '../features/authentication/presentation/screens/reset_password_screen.dart';
 import '../features/authentication/presentation/screens/verify_email_screen.dart';
 import '../features/design_system/design_system.dart';
+import '../features/expenses/presentation/screens/add_expense_screen.dart';
+import '../features/expenses/presentation/screens/expense_detail_screen.dart';
+import '../features/expenses/presentation/screens/expense_list_screen.dart';
+import '../features/expenses/presentation/screens/finance_analytics_screen.dart';
+import '../features/expenses/presentation/screens/finance_dashboard_screen.dart';
+import '../features/expenses/presentation/screens/shared_expenses_screen.dart';
 import '../features/explore/presentation/screens/destination_details_screen.dart';
 import '../features/explore/presentation/screens/destination_search_screen.dart';
 import '../features/explore/presentation/screens/explore_screen.dart';
@@ -136,7 +142,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OnboardingScreen(),
       ),
 
-      // App Shell Branch Navigation (Home, Explore, Trips, Saved, Profile)
+      // App Shell Branch Navigation
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return AppShell(navigationShell: navigationShell);
@@ -185,7 +191,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // Sub-routes (hides bottom nav bar)
+      // Sub-routes
       GoRoute(
         path: '/ai-copilot',
         builder: (context, state) {
@@ -274,6 +280,49 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? 'trip-goa-escape';
           return DocumentVaultScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/finance',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return FinanceDashboardScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/expenses',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return ExpenseListScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/expenses/create',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return AddExpenseScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/expenses/:expenseId',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          final expenseId = state.pathParameters['expenseId'] ?? 'exp-hotel-1';
+          return ExpenseDetailScreen(tripId: id, expenseId: expenseId);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/finance/analytics',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return FinanceAnalyticsScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/finance/shared',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? 'trip-goa-escape';
+          return SharedExpensesScreen(tripId: id);
         },
       ),
       GoRoute(

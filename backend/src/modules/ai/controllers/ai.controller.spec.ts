@@ -10,6 +10,11 @@ import { PlacesService } from '../../places/services/places.service';
 import { BookingsService } from '../../operations/services/bookings.service';
 import { DocumentsService } from '../../operations/services/documents.service';
 import { OperationsService } from '../../operations/services/operations.service';
+import { BudgetsService } from '../../expenses/services/budgets.service';
+import { ExpensesService } from '../../expenses/services/expenses.service';
+import { SettlementsService } from '../../expenses/services/settlements.service';
+import { CurrencyService } from '../../expenses/services/currency.service';
+import { FinanceAnalyticsService } from '../../expenses/services/finance-analytics.service';
 
 describe('AiController', () => {
   let controller: AiController;
@@ -28,6 +33,11 @@ describe('AiController', () => {
         BookingsService,
         DocumentsService,
         OperationsService,
+        BudgetsService,
+        ExpensesService,
+        SettlementsService,
+        CurrencyService,
+        FinanceAnalyticsService,
       ],
     }).compile();
 
